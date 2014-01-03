@@ -2,7 +2,7 @@
 
 var defaults = {
     baseClass: 'dropdown',
-    hideClass: 'dropdown_hidden'
+    hideClass: 'dropdown_hidden',
     extraClass: '',
     initialHide: true
 };
