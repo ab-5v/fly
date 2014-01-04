@@ -27,14 +27,27 @@
 
 
 <div style="width: 600px; margin: 200px auto;">Число е, исключая очевидный случай, трансформирует абстрактный полином, как и предполагалось.
-    <span class="js-dropdown-handle handle">Скалярное</span> произведение обуславливает интеграл по ориентированной области,
+    <span class="js-h1 handle">Скалярное</span> произведение обуславливает интеграл по ориентированной области,
     что несомненно приведет нас к истине.
-    Функция многих переменных существенно усиливает убывающий определитель системы линейных уравнений,
+    Функция многих переменных <span class="js-h2 handle">существенно</span> усиливает убывающий определитель системы линейных уравнений,
     откуда следует доказываемое равенство.
     Нечетная функция однородно оправдывает равновероятный неопределенный интеграл,
     что несомненно приведет нас к истине.
 
 <script>
-$('.js-dropdown-handle').dropdown();
+$('.js-h1').dropdown();
+
+$.fn.dropdown.ctor.actions.hover = function(mode) {
+    var ns = '.ns' + this.count;
+
+    if (mode) {
+        this.$handle
+            .on('mouseenter' + ns, $.proxy(this.show, this))
+            .on('mouseleave' + ns, $.proxy(this.hide, this));
+    } else {
+        this.$handle.off(ns);
+    }
+}
+$('.js-h2').dropdown({action: 'hover'});
 
 </script>

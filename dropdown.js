@@ -145,4 +145,6 @@ $.fn.dropdown = function fn_dropdown (options) {
     }
 };
 
+$.fn.dropdown.ctor = dropdown;
+
 })();
