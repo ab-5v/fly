@@ -12,6 +12,9 @@ dropdown.defaults = {
     extraClass: '',
     initialHide: true,
 
+    position: 'bottom',
+    arrowSize: 10,
+
     uniqGroup: 'uniq',
     action: 'click',
     content: function() {
@@ -92,15 +95,40 @@ dropdown.fn = {
         this.action.call(this, true);
     },
 
-    position: function() {
-        var handle = this.$handle[0].getBoundingClientRect();
-        var dropdown = this.root()[0].getBoundingClientRect();
-        var scroll = {top: $(window).scrollTop(), left: $(window).scrollLeft()};
+    rect: function($el) {
+        return $el[0].getBoundingClientRect();
+    },
 
-        this.root().css({
-            top: scroll.top + handle.top + handle.height + 10,
-            left: scroll.left + handle.left + (handle.width - dropdown.width)/2
-        });
+    position: function() {
+        var css = {};
+
+        var $w = $(window);
+        var pos = this.options.position;
+        var arr = this.options.arrowSize;
+
+        var h = this.rect( this.$handle );
+        var d = this.rect( this.root() );
+        var s = {top: $w.scrollTop(), left: $w.scrollLeft()};
+
+        switch (pos) {
+            case 'left':
+                css.top = s.top + h.top + (h.height - d.height)/2
+                css.left = s.left + h.left - d.width - arr;
+                break;
+            case 'right':
+                css.top = s.top + h.top + (h.height - d.height)/2
+                css.left = s.left + h.left + h.width + arr;
+                break;
+            case 'top':
+                css.top = s.top + h.top - d.height - arr;
+                css.left = s.left + h.left + (h.width - d.width)/2;
+                break;
+            default /*bottom*/:
+                css.top = s.top + h.top + h.height + arr
+                css.left = s.left + h.left + (h.width - d.width)/2;
+        }
+
+        this.root().css(css);
     },
 
     toggle: function() {
@@ -108,8 +136,14 @@ dropdown.fn = {
     },
 
     show: function() {
-        this.root().html( this.options.content() );
+        var opt = this.options;
+
+        this.root()
+            .html( this.options.content() )
+            .addClass( opt.baseClass + '_' + opt.position );
+
         this.position();
+
         this.root().removeClass(this.options.hideClass);
     },
 
