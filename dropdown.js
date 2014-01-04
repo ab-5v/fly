@@ -15,7 +15,7 @@ dropdown.defaults = {
     uniqGroup: 'uniq',
     action: 'click',
     content: function() {
-        return '<br/>';
+        return '<div>Conten</div>';
     }
 };
 
@@ -48,7 +48,7 @@ dropdown.fn = {
             this.$root = $('<div/>')
                 .addClass(opt.baseClass)
                 .addClass(opt.extraClass)
-                .addClass(opt.initalHide ? opt.hideClass : '')
+                .addClass(opt.hideClass)
                 .appendTo('body');
         }
 
@@ -65,7 +65,6 @@ dropdown.fn = {
     handle: function() {
         var ns = '.' + this.ns;
         var action = this.options.action;
-        console.log('handle1', action);
 
         if (action === 'click') {
             this.$handle
@@ -84,7 +83,7 @@ dropdown.fn = {
     position: function() {
         var handle = this.$handle[0].getBoundingClientRect();
         var dropdown = this.root()[0].getBoundingClientRect();
-        var scroll = {top: $(window).scrollTop(), left: $(window).scrollLeft};
+        var scroll = {top: $(window).scrollTop(), left: $(window).scrollLeft()};
 
         this.root().css({
             top: scroll.top + handle.top + handle.height + 10,
@@ -93,7 +92,7 @@ dropdown.fn = {
     },
 
     toggle: function() {
-        this[this.root().hasClass(this.options.hideClass) ? 'hide' : 'show']();
+        this[this.root().hasClass(this.options.hideClass) ? 'show' : 'hide']();
     },
 
     show: function() {

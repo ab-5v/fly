@@ -1,0 +1,35 @@
+.dropdown {
+    position: absolute;
+    transition: opacity .2s, margin-top .2s;
+    z-index: 999;
+}
+.dropdown::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    background: inherit;
+    box-shadow: inherit;
+    -webkit-transform: scaleX(0.6) rotate(45deg);
+        -ms-transform: scaleX(0.6) rotate(45deg);
+            transform: scaleX(0.6) rotate(45deg);
+    z-index: -1;
+}
+.dropdown::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    z-index: -1;
+}
+
+.dropdown_hidden {
+    opacity: 0;
+    margin-top: 10px;
+}
