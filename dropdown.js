@@ -19,6 +19,21 @@ dropdown.defaults = {
     }
 };
 
+dropdown.actions = {
+
+    click: function(mode) {
+        var ns = '.ns' + this.ns;
+        var handler = $.proxy(this.toggle, this);
+
+        if (mode) {
+            this.$handle.on('click' + ns, handler);
+        } else {
+            this.$handle.off('click' + ns);
+        }
+    }
+
+};
+
 dropdown.fn = {
 
     create: function(handle, options) {
@@ -60,24 +75,21 @@ dropdown.fn = {
             this.$root.remove();
             this.$root = null;
         }
+        this.action.call(this, false);
     },
 
     handle: function() {
-        var ns = '.' + this.ns;
         var action = this.options.action;
 
-        if (action === 'click') {
-            this.$handle
-                .on('click' + ns, $.proxy(this.toggle, this));
-
-        } else if (action === 'hover') {
-            this.$handle
-                .on('mouseenter' + ns, $.proxy(this.show, this))
-                .on('mouseleave' + ns, $.proxy(this.hide, this))
-
+        if (action in dropdown.actions) {
+            this.action = dropdown.actions[action];
         } else if (typeof action === 'function') {
-            action()
+            this.action = action;
+        } else {
+            this.action = $.noop;
         }
+
+        this.action.call(this, true);
     },
 
     position: function() {
