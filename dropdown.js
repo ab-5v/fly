@@ -1,55 +1,54 @@
 ;(function() {
 
-function dropdown(handle, options) {
-    return dropdown.fn.create(handle, options);
-};
 
-dropdown.count = 0;
-dropdown.defaults = {
+var wrapper = {
+    count: 0,
+    actions: {
 
-    baseClass: 'dropdown',
-    hideClass: 'dropdown_hidden',
-    extraClass: '',
-    initialHide: true,
+        click: function(mode) {
+            var ns = '.ns' + this.ns;
+            var handler = $.proxy(this.toggle, this);
 
-    position: 'bottom',
-    arrowSize: 10,
-
-    uniqGroup: 'uniq',
-    action: 'click',
-    content: function() {
-        return '<div>Conten</div>';
-    }
-};
-
-dropdown.actions = {
-
-    click: function(mode) {
-        var ns = '.ns' + this.ns;
-        var handler = $.proxy(this.toggle, this);
-
-        if (mode) {
-            this.$handle.on('click' + ns, handler);
-        } else {
-            this.$handle.off('click' + ns);
+            if (mode) {
+                this.$handle.on('click' + ns, handler);
+            } else {
+                this.$handle.off('click' + ns);
+            }
         }
+
     }
+}
 
-};
+var instance = {
 
-dropdown.fn = {
+    defaults: {
+
+        baseClass: 'dropdown',
+        hideClass: 'dropdown_hidden',
+        extraClass: '',
+        initialHide: true,
+
+        position: 'bottom',
+        arrowSize: 10,
+
+        uniqGroup: 'uniq',
+        action: 'click',
+        content: function() {
+            return '<div>Conten</div>';
+        }
+    },
 
     create: function(handle, options) {
 
-        dropdown_.prototype = dropdown.fn;
-        return $.extend(new dropdown_(), {
-            ns: 'ns' + dropdown.count++,
+        dropdown.prototype = this;
+        return $.extend(new dropdown(), {
+            ns: 'ns' + wrapper.count++,
             $root: null,
             $handle: $(handle),
-            options: $.extend({}, dropdown.defaults, options)
+            options: $.extend({}, this.defaults, options)
         }).init();
 
-        function dropdown_() {}
+        function dropdown() {}
     },
 
     init: function() {
@@ -84,8 +83,8 @@ dropdown.fn = {
     handle: function() {
         var action = this.options.action;
 
-        if (action in dropdown.actions) {
-            this.action = dropdown.actions[action];
+        if (action in wrapper.actions) {
+            this.action = wrapper.actions[action];
         } else if (typeof action === 'function') {
             this.action = action;
         } else {
@@ -156,17 +155,17 @@ dropdown.fn = {
 
 var expando = 'dropdown_' + +new Date();
 
-$.fn.dropdown = function fn_dropdown (options) {
+$.fn.dropdown = function dropdown (options) {
 
     var olddd = this.data(expando);
 
     switch (options) {
 
-        case 'dropdown': return olddd;
+        case 'instance': return olddd;
         case 'destroy': destroy(olddd); break;
         default:
             destroy(olddd);
-            this.data(expando, dropdown(this, options));
+            this.data(expando, instance.create(this, options));
     }
 
     return this;
@@ -179,6 +178,6 @@ $.fn.dropdown = function fn_dropdown (options) {
     }
 };
 
-$.fn.dropdown.ctor = dropdown;
+$.fn.dropdown.wrapper = wrapper;
 
 })();
