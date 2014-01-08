@@ -17,7 +17,7 @@ var wrapper = {
         }
 
     }
-}
+};
 
 var instance = {
 
@@ -111,11 +111,11 @@ var instance = {
 
         switch (pos) {
             case 'left':
-                css.top = s.top + h.top + (h.height - d.height)/2
+                css.top = s.top + h.top + (h.height - d.height)/2;
                 css.left = s.left + h.left - d.width - arr;
                 break;
             case 'right':
-                css.top = s.top + h.top + (h.height - d.height)/2
+                css.top = s.top + h.top + (h.height - d.height)/2;
                 css.left = s.left + h.left + h.width + arr;
                 break;
             case 'top':
@@ -123,7 +123,7 @@ var instance = {
                 css.left = s.left + h.left + (h.width - d.width)/2;
                 break;
             default /*bottom*/:
-                css.top = s.top + h.top + h.height + arr
+                css.top = s.top + h.top + h.height + arr;
                 css.left = s.left + h.left + (h.width - d.width)/2;
         }
 
@@ -153,7 +153,7 @@ var instance = {
 
 };
 
-var expando = 'dropdown_' + +new Date();
+var expando = 'dropdown_' + (+new Date());
 
 $.fn.dropdown = function dropdown (options) {
 
