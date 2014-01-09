@@ -60,8 +60,12 @@ wrapper.instance = {
         function dropdown() {}
     },
 
+    initialize: function() {},
+    deinitialize: function() {},
+
     init: function() {
         this.handle();
+        this.initialize();
 
         return this;
     },
@@ -82,6 +86,7 @@ wrapper.instance = {
     },
 
     destroy: function() {
+        this.deinitialize();
         if (this.$root) {
             this.$root.remove();
             this.$root = null;
