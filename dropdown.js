@@ -154,12 +154,12 @@ wrapper.instance = {
 
         if (!content) {
             if (opt.content.length) {
-                opt.content(function(result) {
+                opt.content.call(this, function(result) {
                     that.show(result);
                 });
                 return;
             } else {
-                content = opt.content() || '';
+                content = opt.content.call(this) || '';
             }
         }
 
