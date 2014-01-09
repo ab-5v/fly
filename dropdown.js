@@ -159,7 +159,7 @@ wrapper.instance = {
                 });
                 return;
             } else {
-                content = opt.content();
+                content = opt.content() || '';
             }
         }
 
