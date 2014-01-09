@@ -19,7 +19,7 @@ var wrapper = {
     }
 };
 
-var instance = {
+wrapper.instance = {
 
     defaults: {
 
@@ -40,13 +40,19 @@ var instance = {
 
     create: function(handle, options) {
 
-        dropdown.prototype = this;
-        return $.extend(new dropdown(), {
+        return this.extend({
             ns: 'ns' + wrapper.count++,
             $root: null,
             $handle: $(handle),
             options: $.extend({}, this.defaults, options)
         }).init();
+
+    },
+
+    extend: function(extra) {
+        dropdown.prototype = this;
+
+        return $.extend(new dropdown(), extra);
 
         function dropdown() {}
     },
@@ -178,6 +184,6 @@ $.fn.dropdown = function dropdown (options) {
     }
 };
 
-$.fn.dropdown.wrapper = wrapper;
+$.dropdown = wrapper;
 
 })();
