@@ -171,7 +171,7 @@ $.fn.dropdown = function dropdown (options) {
         case 'destroy': destroy(olddd); break;
         default:
             destroy(olddd);
-            this.data(expando, instance.create(this, options));
+            this.data(expando, wrapper.instance.create(this, options));
     }
 
     return this;
