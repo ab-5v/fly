@@ -143,16 +143,28 @@ wrapper.instance = {
         this[this.root().hasClass(this.options.hideClass) ? 'show' : 'hide']();
     },
 
-    show: function() {
+    show: function(content) {
+        var that = this;
         var opt = this.options;
 
+        if (!content) {
+            if (opt.content.length) {
+                opt.content(function(result) {
+                    that.show(result);
+                });
+                return;
+            } else {
+                content = opt.content();
+            }
+        }
+
         this.root()
-            .html( this.options.content() )
+            .html( content )
             .addClass( opt.baseClass + '_' + opt.position );
 
         this.position();
 
-        this.root().removeClass(this.options.hideClass);
+        this.root().removeClass(opt.hideClass);
     },
 
     hide: function() {
