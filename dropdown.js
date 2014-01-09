@@ -40,19 +40,22 @@ wrapper.instance = {
 
     create: function(handle, options) {
 
-        return this.extend({
+        var inst = this.extend({}, {
             ns: 'ns' + wrapper.count++,
             $root: null,
-            $handle: $(handle),
-            options: $.extend({}, this.defaults, options)
-        }).init();
+            $handle: $(handle)
+        });
 
+        inst.options = $.extend({}, inst.defaults, options);
+        return inst.init();
     },
 
-    extend: function(extra) {
+    extend: function(defaults, extra) {
         dropdown.prototype = this;
 
-        return $.extend(new dropdown(), extra);
+        return $.extend(new dropdown(), {
+            defaults: $.extend({}, this.defaults, defaults)
+        }, extra);
 
         function dropdown() {}
     },
