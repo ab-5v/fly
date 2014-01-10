@@ -3,6 +3,9 @@
 <title>Dropdown example</title>
 
 <link href="../dropdown.css" rel="stylesheet" />
+<!--[if lte IE 8]>
+<link href="../dropdown.ie.css" rel="stylesheet" />
+<![endif]-->
 
 <style>
 .handle {
@@ -12,8 +15,6 @@
 }
 .dropdown {
     padding: 10px;
-    background: #FFF;
-    box-shadow: 0 0 5px 2px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.1);
 }
 
 .tooltip {
@@ -38,7 +39,10 @@
     Функция многих переменных <span class="js-h2 handle">существенно</span> усиливает убывающий определитель системы линейных уравнений,
     откуда следует <span class="js-h3 handle">доказываемое</span> равенство.
     Нечетная функция однородно оправдывает равновероятный неопределенный интеграл,
-    что несомненно приведет нас к истине.
+    что <span class="js-h4 handle">несомненно</span> приведет нас к истине.
+
+<div class="test">
+</div>
 
 <script>
 $('.js-h1').dropdown();
@@ -56,5 +60,6 @@ $.dropdown.actions.hover = function(mode) {
 }
 $('.js-h2').dropdown({action: 'hover', position: 'left'});
 $('.js-h3').dropdown({action: 'hover', extraClass: 'tooltip', position: 'right'});
+$('.js-h4').dropdown({position: 'top'});
 
 </script>
