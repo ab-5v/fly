@@ -109,7 +109,16 @@ wrapper.instance = {
     },
 
     rect: function($el) {
-        return $el[0].getBoundingClientRect();
+        var rect = $el[0].getBoundingClientRect();
+
+        // IE
+        if ( !('width' in rect) ) {
+            rect = $.extend({}, rect);
+            rect.width = $el.outerWidth();
+            rect.height = $el.outerHeight();
+        }
+
+        return rect;
     },
 
     position: function() {
