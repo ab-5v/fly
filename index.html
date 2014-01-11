@@ -13,7 +13,7 @@
     border-bottom: 1px dotted blue;
     cursor: pointer;
 }
-.dropdown {
+.fly-dropdown {
     padding: 10px;
 }
 
@@ -41,7 +41,7 @@
 </div>
 
 <script>
-$('.js-h1').dropdown();
+$('.js-h1').dropdown({content: '<div>Content</div>'});
 
 $('.js-h2').dropdown({action: 'hover', position: 'left', content: function() { return 'Tooltip'; }});
 $('.js-h3').dropdown({action: 'hover', extraClass: 'tooltip', position: 'right', content: function() { return 'Tooltip'; }});

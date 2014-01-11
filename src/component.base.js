@@ -38,7 +38,7 @@ fly._base = {
      * @private
      * @static
      */
-    _defaults: {
+    defaults: {
         content: ''
     },
 
@@ -85,9 +85,9 @@ fly._base = {
     extend: function(extra) {
         component.prototype = this;
 
-        if (extra && '_defaults' in extra) {
+        if (extra && 'defaults' in extra) {
             extra.defaults =
-                $.extend({}, this._defaults, extra._defaults);
+                $.extend({}, this.defaults, extra.defaults);
         }
 
         return $.extend(new component(), extra);
@@ -147,6 +147,12 @@ fly._base = {
      */
     _action: function() {},
 
+    /**
+     * Calculates content and run callback
+     *
+     * @private
+     * @param {Function} done
+     */
     _content: function(done) {
         var content = this.options.content;
 
@@ -154,7 +160,7 @@ fly._base = {
             if (content.length) {
                 content.call(this, done);
             } else {
-                done( content.call(this) || '' );
+                done( content.call(this) );
             }
         } else {
             done( content );
@@ -186,7 +192,7 @@ fly._base = {
      */
     show: function(content) {
 
-        if (!content) {
+        if (!arguments.length) {
             return this._content( $.proxy(this.show, this) );
         }
 
@@ -195,8 +201,8 @@ fly._base = {
         this.trigger(this.EVENTS.SHOW);
 
         this.root()
-            .html( content )
-            .addClass( this.options.baseClass + '_' + pos)
+            .html( content || '' )
+            .addClass( opt.baseClass + '_' + opt.position )
             .css( this._position() );
 
         this.root().removeClass(opt.hideClass);

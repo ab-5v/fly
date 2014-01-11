@@ -16,7 +16,6 @@ fly.dropdown = fly._base.extend({
      */
     _action: function(mode) {
         var that = this;
-        var $root = this.root();
         var $handle = this.$handle;
 
         if (mode) {
@@ -26,7 +25,9 @@ fly.dropdown = fly._base.extend({
         }
 
         function bind() {
-            if ( !$root.hasClass(that.options.hideClass) ) {
+            var $root = that.root();
+
+            if ( !that.hidden() ) {
                 return that.hide();
             }
 
@@ -54,8 +55,11 @@ fly.dropdown = fly._base.extend({
         }
     },
 
+    /**
+     * Deafult settings for dropdown
+     * @type Object
+     */
     defaults: {
-
         baseClass: 'fly-dropdown',
         hideClass: 'fly-dropdown_hidden',
         extraClass: '',

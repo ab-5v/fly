@@ -1,11 +1,11 @@
-.dropdown {
+.fly-dropdown {
     position: absolute;
     background: #FFF;
     box-shadow: 0 0 5px 2px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.1);
     transition: opacity .2s, margin-top .2s, visibility .2s;
     z-index: 999;
 }
-.dropdown::before {
+.fly-dropdown::before {
     content: '';
     position: absolute;
     width: 10px;
@@ -14,7 +14,7 @@
     box-shadow: inherit;
     z-index: -1;
 }
-.dropdown_bottom::before {
+.fly-dropdown_bottom::before {
     top: -5px;
     left: 50%;
     margin-left: -5px;
@@ -22,7 +22,7 @@
         -ms-transform: scaleX(0.6) rotate(45deg);
             transform: scaleX(0.6) rotate(45deg);
 }
-.dropdown_top::before {
+.fly-dropdown_top::before {
     bottom: -5px;
     left: 50%;
     margin-left: -5px;
@@ -30,7 +30,7 @@
         -ms-transform: scaleX(0.6) rotate(45deg);
             transform: scaleX(0.6) rotate(45deg);
 }
-.dropdown_left::before {
+.fly-dropdown_left::before {
     top: 50%;
     right: -5px;
     margin-top: -5px;
@@ -38,7 +38,7 @@
         -ms-transform: scaleY(0.6) rotate(45deg);
             transform: scaleY(0.6) rotate(45deg);
 }
-.dropdown_right::before {
+.fly-dropdown_right::before {
     top: 50%;
     left: -5px;
     margin-top: -5px;
@@ -46,7 +46,7 @@
         -ms-transform: scaleY(0.6) rotate(45deg);
             transform: scaleY(0.6) rotate(45deg);
 }
-.dropdown::after {
+.fly-dropdown::after {
     content: '';
     position: absolute;
     top: 0;
@@ -57,7 +57,7 @@
     z-index: -1;
 }
 
-.dropdown_hidden {
+.fly-dropdown_hidden {
     opacity: 0;
     margin-top: 5px;
     visibility: hidden;

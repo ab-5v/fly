@@ -1,10 +1,10 @@
-.dropdown {
+.fly-dropdown {
     border: 1px solid #CCC;
     box-shadow: none;
 }
 
-.dropdown:before,
-.dropdown:after {
+.fly-dropdown:before,
+.fly-dropdown:after {
     content: '';
     position: absolute;
 
@@ -17,14 +17,14 @@
     border-color: transparent;
 }
 
-.dropdown_bottom:before {
+.fly-dropdown_bottom:before {
     left: 50%;
     bottom: 100%;
     margin-left: -5px;
     border-width: 10px 5px;
     border-bottom-color: inherit;
 }
-.dropdown_bottom:after {
+.fly-dropdown_bottom:after {
     left: 50%;
     bottom: 100%;
     margin-left: -4px;
@@ -32,14 +32,14 @@
     border-bottom-color: #FFF;
 }
 
-.dropdown_top:before {
+.fly-dropdown_top:before {
     top: 100%;
     left: 50%;
     margin-left: -5px;
     border-width: 10px 5px;
     border-top-color: inherit;
 }
-.dropdown_top:after {
+.fly-dropdown_top:after {
     top: 100%;
     left: 50%;
     margin-left: -4px;
@@ -47,14 +47,14 @@
     border-top-color: #FFF;
 }
 
-.dropdown_left:before {
+.fly-dropdown_left:before {
     top: 50%;
     left: 100%;
     margin-top: -5px;
     border-width: 5px 10px;
     border-left-color: inherit;
 }
-.dropdown_left:after {
+.fly-dropdown_left:after {
     top: 50%;
     left: 100%;
     margin-top: -4px;
@@ -62,14 +62,14 @@
     border-left-color: #FFF;
 }
 
-.dropdown_right:before {
+.fly-dropdown_right:before {
     top: 50%;
     right: 100%;
     margin-top: -5px;
     border-width: 5px 10px;
     border-right-color: inherit;
 }
-.dropdown_right:after {
+.fly-dropdown_right:after {
     top: 50%;
     right: 100%;
     margin-top: -4px;
@@ -77,7 +77,7 @@
     border-right-color: #FFF;
 }
 
-.dropdown_hidden:before,
-.dropdown_hidden:after {
+.fly-dropdown_hidden:before,
+.fly-dropdown_hidden:after {
     content: ' ';
 }
