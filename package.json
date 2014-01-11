@@ -2,5 +2,9 @@
   "name": "fly",
   "version": "0.0.0",
   "author": "Artur Burtsev <artjock@gmail.com>",
-  "private": true
+  "private": true,
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-contrib-concat": "~0.3.0"
+  }
 }
