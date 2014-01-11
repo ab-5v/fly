@@ -14,27 +14,27 @@ var wrapper = {
 
             function bind() {
                 if ( !$root.hasClass(that.options.hideClass) ) {
-                    return hide();
+                    return that.hide();
                 }
+
+                that.one(that.EVENTS.HIDE, function() {
+                    $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+                });
 
                 $(document)
                     .on('click' + that.ens, function(evt) {
                         var target = evt.target;
                         if ( out($root, target) && out($handle, target) ) {
-                            hide();
+                            that.hide();
                         }
                     })
                     .on('keydown' + that.ens, function(evt) {
-                        if (evt.which === 27) { hide(); }
+                        if (evt.which === 27) { that.hide(); }
                     });
 
                 that.show();
             }
 
-            function hide() {
-                that.hide();
-                $(document).off( 'click' + that.ens + ' keydown' + that.ens );
-            }
 
             function out($root, el) {
                 return $root[0] !== el && !$.contains($root[0], el);
@@ -45,6 +45,13 @@ var wrapper = {
 };
 
 wrapper.instance = {
+
+
+    EVENTS: {
+        HIDE: 'hide',
+        SHOW: 'show',
+        ROOTREADY: ''
+    },
 
     defaults: {
 
@@ -108,6 +115,8 @@ wrapper.instance = {
                 .addClass(opt.extraClass)
                 .addClass(opt.hideClass)
                 .appendTo('body');
+
+            this.trigger(this.EVENTS.ROOTREADY);
         }
 
         return this.$root;
@@ -200,6 +209,7 @@ wrapper.instance = {
             }
         }
 
+        this.trigger(this.EVENTS.SHOW);
         this.root()
             .html( content )
             .addClass( opt.baseClass + '_' + opt.position );
@@ -210,11 +220,18 @@ wrapper.instance = {
     },
 
     hide: function() {
+        this.trigger(this.EVENTS.HIDE);
         this.root()
             .addClass(this.options.hideClass);
     }
 
 };
+
+$.each(['on', 'off', 'one', 'trigger'], function(i, type) {
+    wrapper.instance[type] = function() {
+        this.root()[type].apply(this.root(), arguments);
+    }
+});
 
 var expando = 'dropdown_' + (+new Date());
 
