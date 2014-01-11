@@ -1,6 +1,6 @@
 
 /**
- * Calculates hndl position depending on handle
+ * Calculates fly position depending on handle
  *
  * @requires mixin.rect
  * @mixin
@@ -8,7 +8,7 @@
  * @property {Number} top
  * @property {Number} left
  */
-hndl._mixin.position = function() {
+fly._mixin.position = function() {
     var css = {};
 
     var $w = $(window);

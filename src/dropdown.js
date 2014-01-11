@@ -2,12 +2,12 @@
 /**
  * Dropdown
  *
- * @requires hndl._base
+ * @requires fly._base
  * @requires mixin.position
  *
- * @extends hndl._base
+ * @extends fly._base
  */
-hndl.dropdown = hndl._base.extend({
+fly.dropdown = fly._base.extend({
 
     /**
      * Toggles dropdown on handle click
@@ -56,15 +56,15 @@ hndl.dropdown = hndl._base.extend({
 
     defaults: {
 
-        baseClass: 'hndl-dropdown',
-        hideClass: 'hndl-dropdown_hidden',
+        baseClass: 'fly-dropdown',
+        hideClass: 'fly-dropdown_hidden',
         extraClass: '',
 
         position: 'bottom',
         arrowSize: 10
     },
 
-    _rect: hndl._mixin.rect,
-    _position: hndl._mixin.position,
+    _rect: fly._mixin.rect,
+    _position: fly._mixin.position,
 });
 

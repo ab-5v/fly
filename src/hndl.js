@@ -2,7 +2,7 @@
 /**
  * Wrapper
  */
-var hndl = {
+var fly = {
     /**
      * Instances count
      * @private

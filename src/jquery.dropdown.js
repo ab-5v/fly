@@ -5,7 +5,7 @@
  * @requires dropdown.js
  */
 
-var expando = 'dropdown_' + (+new Date());
+var expando = 'fly_dropdown_' + (+new Date());
 
 $.fn.dropdown = function dropdown (options) {
 
@@ -17,7 +17,7 @@ $.fn.dropdown = function dropdown (options) {
         case 'destroy': destroy(olddd); break;
         default:
             destroy(olddd);
-            this.data(expando, wrapper.instance.create(this, options));
+            this.data(expando, fly.instance.create(this, options));
     }
 
     return this;

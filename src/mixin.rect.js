@@ -12,7 +12,7 @@
  * @property {Number} width
  * @property {Number} height
  */
-hndl._mixin.rect = function($el) {
+fly._mixin.rect = function($el) {
     var rect = $el[0].getBoundingClientRect();
 
     // IE

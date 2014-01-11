@@ -1,6 +1,6 @@
 
 
-hndl._base = {
+fly._base = {
 
     /**
      * Avaliable events
@@ -57,16 +57,16 @@ hndl._base = {
 
 
     /**
-     * Creates instance of hndl
+     * Creates instance of fly
      * @param {jQuery} handle
      * @param {Object} options
      * @static
-     * @return hndl
+     * @return fly
      */
     create: function(handle, options) {
 
         var inst = this.extend({
-            ens: '.ns' + hndl.count++,
+            ens: '.ns' + fly.count++,
             $handle: $(handle),
             _emmiter: $({})
         });
@@ -76,13 +76,13 @@ hndl._base = {
     },
 
     /**
-     * Extends hndl's class and returns new one
+     * Extends fly's class and returns new one
      * @param {Object} extra
      * @static
-     * @return hndl
+     * @return fly
      */
     extend: function(extra) {
-        hndl.prototype = this;
+        fly.prototype = this;
 
         if (extra && '_defaults' in extra) {
             extra.defaults =
@@ -91,11 +91,11 @@ hndl._base = {
 
         return $.extend(new dropdown(), extra);
 
-        function hndl() {}
+        function fly() {}
     },
 
     /**
-     * Lazy hndl's getter
+     * Lazy fly's getter
      * @return jQuery
      */
     root: function() {
@@ -116,9 +116,9 @@ hndl._base = {
     },
 
     /**
-     * Initializes hndl
+     * Initializes fly
      * @private
-     * @return hndl
+     * @return fly
      */
     _init: function() {
         this._action(true);
@@ -127,7 +127,7 @@ hndl._base = {
     },
 
     /**
-     * Cleans up hndl
+     * Cleans up fly
      */
     _destroy: function() {
         this.destroy();
@@ -161,7 +161,7 @@ hndl._base = {
     },
 
     /**
-     * Calculates hndl's position
+     * Calculates fly's position
      * @abstract
      * @private
      */
@@ -180,7 +180,7 @@ hndl._base = {
     destroy: function() {},
 
     /**
-     * Shows hndl
+     * Shows fly
      * @param {HTMLElement|String} content
      */
     show: function(content) {
@@ -202,7 +202,7 @@ hndl._base = {
     },
 
     /**
-     * Hides hndl
+     * Hides fly
      */
     hide: function() {
         this.trigger(this.EVENTS.HIDE);
@@ -212,7 +212,7 @@ hndl._base = {
     },
 
     /**
-     * Toggles visibility of the hndl
+     * Toggles visibility of the fly
      */
     toggle: function() {
         this[this.hidden() ? 'show' : 'hide']();
@@ -232,7 +232,7 @@ hndl._base = {
  * Adds jquery events support
  */
 $.each(['on', 'off', 'one', 'trigger'], function(i, type) {
-    wrapper.instance[type] = function() {
+    fly.base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
     }
 });
