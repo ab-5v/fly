@@ -23,9 +23,16 @@ module.exports = function(grunt) {
                 ],
                 dest: 'fly.full.js'
             }
+        },
+        watch: {
+            src: {
+                files: ['src/*.js'],
+                tasks: ['concat']
+            }
         }
     });
 
 
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
 };
