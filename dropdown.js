@@ -10,7 +10,11 @@ var wrapper = {
             var $root = this.root();
             var $handle = this.$handle;
 
-            $handle[mode ? 'on' : 'off']('click' + this.ens, bind);
+            if (mode) {
+                $handle.on('click' + this.ens, bind);
+            } else {
+                $handle.off('click' + this.ens);
+            }
 
             function bind() {
                 if ( !$root.hasClass(that.options.hideClass) ) {
