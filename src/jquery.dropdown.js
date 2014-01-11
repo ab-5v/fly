@@ -17,7 +17,7 @@ $.fn.dropdown = function dropdown (options) {
         case 'destroy': destroy(olddd); break;
         default:
             destroy(olddd);
-            this.data(expando, fly.instance.create(this, options));
+            this.data(expando, fly.dropdown.create(this, options));
     }
 
     return this;

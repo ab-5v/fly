@@ -72,6 +72,7 @@ fly._base = {
         });
 
         inst.options = $.extend({}, inst.defaults, options);
+
         return inst._init();
     },
 
@@ -82,16 +83,16 @@ fly._base = {
      * @return fly
      */
     extend: function(extra) {
-        fly.prototype = this;
+        component.prototype = this;
 
         if (extra && '_defaults' in extra) {
             extra.defaults =
                 $.extend({}, this._defaults, extra._defaults);
         }
 
-        return $.extend(new dropdown(), extra);
+        return $.extend(new component(), extra);
 
-        function fly() {}
+        function component() {}
     },
 
     /**
@@ -229,10 +230,11 @@ fly._base = {
 
 
 /**
- * Adds jquery events support
- */
+* Adds jquery events support
+*/
 $.each(['on', 'off', 'one', 'trigger'], function(i, type) {
-    fly.base[type] = function() {
+    fly._base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
     }
 });
+
