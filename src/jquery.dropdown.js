@@ -5,27 +5,32 @@
  * @requires dropdown.js
  */
 
-var expando = 'fly_dropdown_' + (+new Date());
+$.fly = fly;
 
-$.fn.dropdown = function dropdown (options) {
+$.each(['dropdown', 'tooltip'], function(i, component) {
 
-    var olddd = this.data(expando);
+    var expando = 'fly_' + component + '_' + (+new Date());
 
-    switch (options) {
+    $.fn[ component ] = function fly_$fn (options) {
 
-        case 'instance': return olddd;
-        case 'destroy': destroy(olddd); break;
-        default:
-            destroy(olddd);
-            this.data(expando, fly.dropdown.create(this, options));
-    }
+        var old = this.data(expando);
 
-    return this;
+        switch (options) {
 
-    function destroy(dropdown) {
-        if (dropdown) {
-            dropdown.$handle.removeData(expando);
-            dropdown._destroy();
+            case 'instance': return old;
+            case 'destroy': destroy(old); break;
+            default:
+                destroy(old);
+                this.data(expando, fly[component].create(this, options));
         }
-    }
-};
+
+        return this;
+
+        function destroy(component) {
+            if (component) {
+                component.$handle.removeData(expando);
+                component._destroy();
+            }
+        }
+    };
+});

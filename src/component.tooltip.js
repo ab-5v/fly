@@ -7,7 +7,7 @@
  *
  * @extends fly._base
  */
-fly.dropdown = fly._base.extend({
+fly.tooltip = fly._base.extend({
 
     /**
      * Toggle tooltip on hover
@@ -23,7 +23,7 @@ fly.dropdown = fly._base.extend({
                 .on('mouseleave' + this.ens, function() { that.hide(); });
         } else {
             this.$handle
-                .off('mouseinter' + this.ens);
+                .off('mouseinter' + this.ens)
                 .off('mouseleave' + this.ens);
         }
     },

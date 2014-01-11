@@ -350,6 +350,53 @@ fly._mixin.position = function() {
  *
  * @extends fly._base
  */
+fly.tooltip = fly._base.extend({
+
+    /**
+     * Toggle tooltip on hover
+     * @private
+     */
+    _action: function(mode) {
+        var that = this;
+        var $handle = this.$handle;
+
+        if (mode) {
+            this.$handle
+                .on('mouseenter' + this.ens, function() { that.show(); })
+                .on('mouseleave' + this.ens, function() { that.hide(); });
+        } else {
+            this.$handle
+                .off('mouseinter' + this.ens)
+                .off('mouseleave' + this.ens);
+        }
+    },
+
+    /**
+     * Deafult settings for tooltip
+     * @type Object
+     */
+    defaults: {
+        baseClass: 'fly-tooltip',
+        hideClass: 'fly-tooltip_hidden',
+        extraClass: '',
+
+        position: 'bottom',
+        arrowSize: 10
+    },
+
+    _rect: fly._mixin.rect,
+    _position: fly._mixin.position,
+});
+
+
+/**
+ * Dropdown
+ *
+ * @requires fly._base
+ * @requires mixin.position
+ *
+ * @extends fly._base
+ */
 fly.dropdown = fly._base.extend({
 
     /**
@@ -423,28 +470,33 @@ fly.dropdown = fly._base.extend({
  * @requires dropdown.js
  */
 
-var expando = 'fly_dropdown_' + (+new Date());
+$.fly = fly;
 
-$.fn.dropdown = function dropdown (options) {
+$.each(['dropdown', 'tooltip'], function(i, component) {
 
-    var olddd = this.data(expando);
+    var expando = 'fly_' + component + '_' + (+new Date());
 
-    switch (options) {
+    $.fn[ component ] = function fly_$fn (options) {
 
-        case 'instance': return olddd;
-        case 'destroy': destroy(olddd); break;
-        default:
-            destroy(olddd);
-            this.data(expando, fly.dropdown.create(this, options));
-    }
+        var old = this.data(expando);
 
-    return this;
+        switch (options) {
 
-    function destroy(dropdown) {
-        if (dropdown) {
-            dropdown.$handle.removeData(expando);
-            dropdown._destroy();
+            case 'instance': return old;
+            case 'destroy': destroy(old); break;
+            default:
+                destroy(old);
+                this.data(expando, fly[component].create(this, options));
         }
-    }
-};
+
+        return this;
+
+        function destroy(component) {
+            if (component) {
+                component.$handle.removeData(expando);
+                component._destroy();
+            }
+        }
+    };
+});
 })();

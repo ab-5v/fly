@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                     'src/component.base.js',
                     'src/mixin.rect.js',
                     'src/mixin.position.js',
+                    'src/component.tooltip.js',
                     'src/component.dropdown.js',
                     'src/jquery.dropdown.js'
                 ],
