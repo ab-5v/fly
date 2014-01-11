@@ -7,6 +7,9 @@ hndl._base = {
      * @enum
      */
     EVENTS: {
+        HIDE: 'hide',
+        SHOW: 'show',
+        ROOTREADY: 'rootready'
     },
 
     /**
@@ -15,6 +18,13 @@ hndl._base = {
      * @private
      */
     _$root: null,
+
+
+    /**
+     * Event emmiter
+     * @type jQuery
+     */
+    _emmiter: null,
 
     /**
      * Open/close trigger
@@ -28,7 +38,9 @@ hndl._base = {
      * @private
      * @static
      */
-    _defaults: null,
+    _defaults: {
+        content: ''
+    },
 
     /**
      * Events namespace
@@ -43,6 +55,7 @@ hndl._base = {
     options: null,
 
 
+
     /**
      * Creates instance of hndl
      * @param {jQuery} handle
@@ -54,8 +67,8 @@ hndl._base = {
 
         var inst = this.extend({
             ens: '.ns' + hndl.count++,
-            $root: null,
-            $handle: $(handle)
+            $handle: $(handle),
+            _emmiter: $({})
         });
 
         inst.options = $.extend({}, inst.defaults, options);
@@ -82,12 +95,33 @@ hndl._base = {
     },
 
     /**
+     * Lazy hndl's getter
+     * @return jQuery
+     */
+    root: function() {
+
+        if (!this.$root) {
+            var opt = this.options;
+
+            this.$root = $('<div/>')
+                .addClass(opt.baseClass)
+                .addClass(opt.extraClass)
+                .addClass(opt.hideClass)
+                .appendTo('body');
+
+            this.trigger(this.EVENTS.ROOTREADY);
+        }
+
+        return this.$root;
+    },
+
+    /**
      * Initializes hndl
      * @private
      * @return hndl
      */
     _init: function() {
-        this._action();
+        this._action(true);
         this.init();
         return this;
     },
@@ -102,21 +136,7 @@ hndl._base = {
             this._$root.remove();
             this._$root = null;
         }
-        this.action.call(this, false);
-    },
-
-    /**
-     * Public init, should be overwritten
-     * @abstract
-     */
-    init: function() {
-    },
-
-    /**
-     * Public destroy, Should be overwritten
-     * @abstract
-     */
-    destroy: function() {
+        this._action(false);
     },
 
     /**
@@ -124,8 +144,7 @@ hndl._base = {
      * @abstract
      * @private
      */
-    _action: function() {
-    },
+    _action: function() {},
 
     _content: function(done) {
         var content = this.options.content;
@@ -140,6 +159,25 @@ hndl._base = {
             done( content );
         }
     },
+
+    /**
+     * Calculates hndl's position
+     * @abstract
+     * @private
+     */
+    _position: function() {},
+
+    /**
+     * Public init, should be overwritten
+     * @abstract
+     */
+    init: function() {},
+
+    /**
+     * Public destroy, Should be overwritten
+     * @abstract
+     */
+    destroy: function() {},
 
     /**
      * Shows hndl
@@ -157,9 +195,8 @@ hndl._base = {
 
         this.root()
             .html( content )
-            .addClass( opt.baseClass + '_' + opt.position );
-
-        this.position();
+            .addClass( this.options.baseClass + '_' + pos)
+            .css( this._position() );
 
         this.root().removeClass(opt.hideClass);
     },
@@ -188,4 +225,14 @@ hndl._base = {
     hidden: function() {
         return this.root().hasClass( this.options.hideClass);
     }
-}
+};
+
+
+/**
+ * Adds jquery events support
+ */
+$.each(['on', 'off', 'one', 'trigger'], function(i, type) {
+    wrapper.instance[type] = function() {
+        this._emmiter[type].apply(this._emmiter, arguments);
+    }
+});
