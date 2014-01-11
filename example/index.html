@@ -48,18 +48,19 @@
 $('.js-h1').dropdown();
 
 $.dropdown.actions.hover = function(mode) {
+    var that = this;
     var ns = '.ns' + this.count;
 
     if (mode) {
         this.$handle
-            .on('mouseenter' + ns, $.proxy(this.show, this))
-            .on('mouseleave' + ns, $.proxy(this.hide, this));
+            .on('mouseenter' + ns, function() { that.show(); })
+            .on('mouseleave' + ns, function() { that.hide(); });
     } else {
         this.$handle.off(ns);
     }
 }
-$('.js-h2').dropdown({action: 'hover', position: 'left'});
-$('.js-h3').dropdown({action: 'hover', extraClass: 'tooltip', position: 'right'});
+$('.js-h2').dropdown({action: 'hover', position: 'left', content: function() { return 'Tooltip'; }});
+$('.js-h3').dropdown({action: 'hover', extraClass: 'tooltip', position: 'right', content: function() { return 'Tooltip'; }});
 $('.js-h4').dropdown({position: 'top'});
 
 </script>
