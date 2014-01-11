@@ -6,13 +6,38 @@ var wrapper = {
     actions: {
 
         click: function(mode) {
-            var ns = '.ns' + this.ns;
-            var handler = $.proxy(this.toggle, this);
+            var that = this;
+            var $root = this.root();
+            var $handle = this.$handle;
 
-            if (mode) {
-                this.$handle.on('click' + ns, handler);
-            } else {
-                this.$handle.off('click' + ns);
+            $handle[mode ? 'on' : 'off']('click' + this.ens, bind);
+
+            function bind() {
+                if ( !$root.hasClass(that.options.hideClass) ) {
+                    return hide();
+                }
+
+                $(document)
+                    .on('click' + that.ens, function(evt) {
+                        var target = evt.target;
+                        if ( out($root, target) && out($handle, target) ) {
+                            hide();
+                        }
+                    })
+                    .on('keydown' + that.ens, function(evt) {
+                        if (evt.which === 27) { hide(); }
+                    });
+
+                that.show();
+            }
+
+            function hide() {
+                that.hide();
+                $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+            }
+
+            function out($root, el) {
+                return $root[0] !== el && !$.contains($root[0], el);
             }
         }
 
@@ -41,7 +66,7 @@ wrapper.instance = {
     create: function(handle, options) {
 
         var inst = this.extend({
-            ns: 'ns' + wrapper.count++,
+            ens: '.ns' + wrapper.count++,
             $root: null,
             $handle: $(handle)
         });
