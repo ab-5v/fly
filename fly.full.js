@@ -39,6 +39,13 @@ fly._base = {
     },
 
     /**
+     * Shared constructor
+     * @private
+     * @type Function
+     */
+    _ctor: function fly_ctor() {},
+
+    /**
      * DOM root
      * @type jQuery
      * @private
@@ -109,16 +116,14 @@ fly._base = {
      * @return fly
      */
     extend: function(extra) {
-        component.prototype = this;
+        this._ctor.prototype = this;
 
         if (extra && 'defaults' in extra) {
             extra.defaults =
                 $.extend({}, this.defaults, extra.defaults);
         }
 
-        return $.extend(new component(), extra);
-
-        function component() {}
+        return $.extend(new this._ctor(), extra);
     },
 
     /**
@@ -477,29 +482,33 @@ fly.dropdown = fly._base.extend({
 /**
  * jQuery extension for dropdown
  *
- * @requires dropdown.js
+ * @requires _base.js
  */
 
 $.fly = fly;
 
-$.each(['dropdown', 'tooltip'], function(i, component) {
+$.each(fly, function(type, component) {
+    if ( component === fly._base || !(component instanceof fly._base._ctor) ) {
+        return;
+    }
 
-    var expando = 'fly_' + component + '_' + (+new Date());
+    var expando = 'fly_' + type + '_' + (+new Date());
 
-    $.fn[ component ] = function fly_$fn (options) {
+    $.fn[ type ] = function(options) {
 
-        var old = this.data(expando);
+        return this.each(function(i, $this) {
+            var $el = $(this);
+            var old = $el.data(expando);
 
-        switch (options) {
+            switch (options) {
 
-            case 'instance': return old;
-            case 'destroy': destroy(old); break;
-            default:
-                destroy(old);
-                this.data(expando, fly[component].create(this, options));
-        }
-
-        return this;
+                case 'instance': return old;
+                case 'destroy': destroy(old); break;
+                default:
+                    destroy(old);
+                    $el.data(expando, component.create($el, options));
+            }
+        });
 
         function destroy(component) {
             if (component) {
@@ -509,4 +518,5 @@ $.each(['dropdown', 'tooltip'], function(i, component) {
         }
     };
 });
+
 })();

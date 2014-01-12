@@ -13,6 +13,13 @@ fly._base = {
     },
 
     /**
+     * Shared constructor
+     * @private
+     * @type Function
+     */
+    _ctor: function fly_ctor() {},
+
+    /**
      * DOM root
      * @type jQuery
      * @private
@@ -83,16 +90,14 @@ fly._base = {
      * @return fly
      */
     extend: function(extra) {
-        component.prototype = this;
+        this._ctor.prototype = this;
 
         if (extra && 'defaults' in extra) {
             extra.defaults =
                 $.extend({}, this.defaults, extra.defaults);
         }
 
-        return $.extend(new component(), extra);
-
-        function component() {}
+        return $.extend(new this._ctor(), extra);
     },
 
     /**
