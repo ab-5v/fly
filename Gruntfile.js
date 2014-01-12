@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                     'src/mixin.position.js',
                     'src/component.tooltip.js',
                     'src/component.dropdown.js',
-                    'src/jquery.dropdown.js'
+                    'src/jquery.fly.js'
                 ],
                 dest: 'fly.full.js'
             }
