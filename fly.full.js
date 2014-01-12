@@ -267,7 +267,7 @@ fly._base = {
 $.each(['on', 'off', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
-    }
+    };
 });
 
 

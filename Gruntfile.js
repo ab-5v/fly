@@ -27,13 +27,17 @@ module.exports = function(grunt) {
         },
         watch: {
             src: {
-                files: ['src/*.js'],
-                tasks: ['concat']
+                files: ['Gruntfile.js', 'src/*.js'],
+                tasks: ['concat', 'jshint']
             }
+        },
+        jshint: {
+            all: ['Gruntfile.js', 'src/*.js', '*.js']
         }
     });
 
 
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
 };
