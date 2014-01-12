@@ -420,40 +420,42 @@ fly.dropdown = fly._base.extend({
      * @private
      */
     _action: function(mode) {
+        if (mode) {
+            this.$handle.on('click' + this.ens, $.proxy(this._bindAction, this));
+        } else {
+            this.$handle.off('click' + this.ens);
+        }
+    },
+
+    /**
+     * Bind action helper
+     * @private
+     */
+    _bindAction: function() {
         var that = this;
+        var $root = this.root();
         var $handle = this.$handle;
 
-        if (mode) {
-            $handle.on('click' + this.ens, bind);
-        } else {
-            $handle.off('click' + this.ens);
+        if ( !this.hidden() ) {
+            return this.hide();
         }
 
-        function bind() {
-            var $root = that.root();
+        this.one(that.EVENTS.HIDE, function() {
+            $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+        });
 
-            if ( !that.hidden() ) {
-                return that.hide();
-            }
-
-            that.one(that.EVENTS.HIDE, function() {
-                $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+        $(document)
+            .on('click' + that.ens, function(evt) {
+                var target = evt.target;
+                if ( out($root, target) && out($handle, target) ) {
+                    that.hide();
+                }
+            })
+            .on('keydown' + that.ens, function(evt) {
+                if (evt.which === 27) { that.hide(); }
             });
 
-            $(document)
-                .on('click' + that.ens, function(evt) {
-                    var target = evt.target;
-                    if ( out($root, target) && out($handle, target) ) {
-                        that.hide();
-                    }
-                })
-                .on('keydown' + that.ens, function(evt) {
-                    if (evt.which === 27) { that.hide(); }
-                });
-
-            that.show();
-        }
-
+        this.show();
 
         function out($root, el) {
             return $root[0] !== el && !$.contains($root[0], el);
