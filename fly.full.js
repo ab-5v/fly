@@ -99,7 +99,7 @@ fly._base = {
     create: function(handle, options) {
 
         var inst = this.extend({
-            ens: '.ns' + fly.count++,
+            ens: '.ns' + fly._count++,
             $handle: $(handle),
             _emmiter: $({})
         });
