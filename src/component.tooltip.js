@@ -52,5 +52,5 @@ fly.tooltip = fly._base.extend({
     },
 
     _rect: fly._mixin.rect,
-    _position: fly._mixin.position,
+    _position: fly._mixin.position
 });
