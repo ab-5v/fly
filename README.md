@@ -2,7 +2,7 @@ FLY
 ===============
 Popover/dropdown/tooltip/popup/whateveryouwant library.<br/>
 Requires jQuery 1.7+. Works for modern browsers and IE8+.<br/>
-Contains [_base](#base) component you can extend, ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components, [mixins](#mixins), [jQuery plugin](#jqueryplugin) and some css styling.
+Contains [_base](#base) component you can extend, ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components, [mixins](#mixins), [jQuery plugin](#jqueryplugin) and some css styling. [Examples](http://artjock.github.io/fly/).
 
 ## Base
 Is an abstract class you can extend to build your own popover type. You can find it at `fly._base`
