@@ -1,7 +1,7 @@
 FLY
 ===============
-Popover/dropdown/tooltip/popup/whateveryouwant library.
-Requires jQuery 1.7+. Works for modern browsers and IE8+.
+Popover/dropdown/tooltip/popup/whateveryouwant library.<br/>
+Requires jQuery 1.7+. Works for modern browsers and IE8+.<br/>
 Contains [_base](#base) component you can extend and ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components.
 
 ## Base
@@ -97,3 +97,31 @@ var popoverus = fly._base.extend({
   }
 });
 ```
+
+## dropdown
+Extends `defaults` with
+```
+ {
+    baseClass: 'fly-dropdown',
+    hideClass: 'fly-dropdown_hidden',
+    extraClass: '',
+
+    position: 'bottom', // where to open
+    arrowSize: 10       // offset between dropdown and handle
+}
+```
+Adds `handle`'s `action`, which trigger dropdown on `handle` click and closes on click outside dropdown and `ESC`
+
+## tooltip
+Extends `defaults` with
+```
+{
+  baseClass: 'fly-tooltip',
+  hideClass: 'fly-tooltip_hidden',
+  extraClass: '',
+
+  position: 'bottom', // where to open
+  arrowSize: 10       // offset between tooltip and handle
+}
+```
+Adds `handle`'s `action`, which show tooltip on `handle`'s mouseenter with 300ms delay and hides it on mouseleave
