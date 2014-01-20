@@ -2,7 +2,7 @@ FLY
 ===============
 Popover/dropdown/tooltip/popup/whateveryouwant library.<br/>
 Requires jQuery 1.7+. Works for modern browsers and IE8+.<br/>
-Contains [_base](#base) component you can extend and ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components.
+Contains [_base](#base) component you can extend, ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components, [mixins](#mixins), [jQuery plugin](#jqueryplugin) and some css styling.
 
 ## Base
 Is an abstract class you can extend to build your own popover type. You can find it at `fly._base`
@@ -125,3 +125,19 @@ Extends `defaults` with
 }
 ```
 Adds `handle`'s `action`, which show tooltip on `handle`'s mouseenter with 300ms delay and hides it on mouseleave
+
+## Mixins
+
+### Rect($el)
+Returns offsets and dimensions of the `$el` (top/left/right/bottom/width/height)
+
+### Position()
+Calculates popover position relative to `handle` according to `options.position`
+
+## jQuery plugin
+For every non-base component in `fly.*` (`tooltip`, `dropdown`) creates `$.fn` function, which accepts `options` or command, you can use it as:
+```
+$('.js-handle').dropdown({content: 'dropdown'});
+$('.js-handle').dropdown('instance').hidden();
+$('.js-handle').dropdown('destroy');
+```
