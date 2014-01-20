@@ -1,9 +1,28 @@
 FLY
 ===============
-Popover/dropdown/tooltip/popup/whateveryouwant library. Requires jQuery 1.7+. Contains base component you can extend and ready to use dropdown and tooltip components.
+Popover/dropdown/tooltip/popup/whateveryouwant library.
+Requires jQuery 1.7+. Works for modern browsers and IE8+.
+Contains [_base](#base) component you can extend and ready to use [dropdown](#dropdown) and [tooltip](#tooltip) components.
 
 ## Base
 Is an abstract class you can extend to build your own popover type. You can find it at `fly._base`
+
+- [extend(extra)](#extendextra)
+- [create(options)](#createoptions)
+- [defaults](#defaults)
+- [options.content](#optionscontent)
+- [show(content)](#showcontent)
+- [hide()](#hidetrigger)
+- [trigger()](#hidetrigger)
+- [hidden()](#hidden)
+- [root()](#root)
+- [init()](#init)
+- [destroy()](#destroy)
+- [on()](#onoffonetrigger)
+- [off()](#onoffonetrigger)
+- [one()](#onoffonetrigger)
+- [trigger()](#onoffonetrigger)
+- [EVENTS](#events)
 
 ### extend(extra)
 Creates new class, based on context's class:
@@ -44,7 +63,6 @@ Hides/triggers popover
 
 ### hidden()
 Returns `true` if popover is visible and `false` otherwise
-
 
 ### root()
 Lazy `root` initiation, will return the `root` and ensure it was created and appropriate evens triggered. By default it creates root on first `show()`
