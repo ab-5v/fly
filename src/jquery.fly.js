@@ -14,7 +14,7 @@ $.each(fly, function(type, component) {
 
     var expando = 'fly_' + type + '_' + (+new Date());
 
-    $.fn[ 'fly' + type ] = function(options) {
+    $.fn[ type ] = function(options) {
 
         return this.each(function(i, $this) {
             var $el = $(this);
