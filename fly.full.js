@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.1
+ * @version v0.0.2
  * @author Artur Burtsev <artjock@gmail.com>
  */
 ;(function() {
