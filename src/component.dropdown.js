@@ -66,7 +66,7 @@ fly.dropdown = fly._base.extend({
         hideClass: 'fly-dropdown_hidden',
         extraClass: '',
 
-        position: 'bottom',
+        position: 'bottom center',
         arrowSize: 10
     },
 

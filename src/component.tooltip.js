@@ -47,7 +47,7 @@ fly.tooltip = fly._base.extend({
         hideClass: 'fly-tooltip_hidden',
         extraClass: '',
 
-        position: 'bottom',
+        position: 'bottom center',
         arrowSize: 10
     },
 

@@ -51,6 +51,20 @@
         -ms-transform: scaleY(0.6) rotate(45deg);
             transform: scaleY(0.6) rotate(45deg);
 }
+.fly-tooltip_arrow-top::before {
+    top: 15px;
+}
+.fly-tooltip_arrow-left::before {
+    left: 15px;
+}
+.fly-tooltip_arrow-right::before {
+    left: auto;
+    right: 10px;
+}
+.fly-tooltip_arrow-bottom::before {
+    top: auto;
+    bottom: 10px;
+}
 .fly-tooltip::after {
     content: '';
     position: absolute;

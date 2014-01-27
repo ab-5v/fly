@@ -51,6 +51,22 @@
         -ms-transform: scaleY(0.6) rotate(45deg);
             transform: scaleY(0.6) rotate(45deg);
 }
+
+.fly-dropdown_arrow-top::before {
+    top: 15px;
+}
+.fly-dropdown_arrow-left::before {
+    left: 15px;
+}
+.fly-dropdown_arrow-right::before {
+    left: auto;
+    right: 10px;
+}
+.fly-dropdown_arrow-bottom::before {
+    top: auto;
+    bottom: 10px;
+}
+
 .fly-dropdown::after {
     content: '';
     position: absolute;

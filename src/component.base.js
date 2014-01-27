@@ -202,13 +202,16 @@ fly._base = {
         }
 
         var opt = this.options;
+        var pos = this._position();
+        var mod = opt.position.split(' ');
+        var base = opt.baseClass;
 
         this.trigger(this.EVENTS.SHOW);
 
         this.root()
             .html( content || '' )
-            .addClass( opt.baseClass + '_' + opt.position )
-            .css( this._position() );
+            .css( this._position() )
+            .addClass( [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ') );
 
         this.root().removeClass(opt.hideClass);
     },
