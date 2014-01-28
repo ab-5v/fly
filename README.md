@@ -106,7 +106,7 @@ Extends `defaults` with
     hideClass: 'fly-dropdown_hidden',
     extraClass: '',
 
-    position: 'bottom', // where to open
+    position: 'bottom center', // where to open dropdown and where to show tail
     arrowSize: 10       // offset between dropdown and handle
 }
 ```
@@ -120,7 +120,7 @@ Extends `defaults` with
   hideClass: 'fly-tooltip_hidden',
   extraClass: '',
 
-  position: 'bottom', // where to open
+  position: 'bottom center', // where to open tooltip and where to show tail
   arrowSize: 10       // offset between tooltip and handle
 }
 ```
