@@ -33,7 +33,7 @@
     margin: 10px;
     cursor: pointer;
 }
-.auto-handle::before {
+.auto-handle:before {
     content: attr(data-position);
 }
 .auto-handle.big {
@@ -83,7 +83,7 @@ $('.js-h4').dropdown({position: 'top', content: function(done) { setTimeout(func
 
 $('.js-trigger-big').click(function() { $('.js-auto-handle').toggleClass('big'); });
 $('.js-auto-handle').each(function(i, el) {
-    $(el).tooltip({position: $(el).attr('data-position'), content: 'Menu item 1<br/>Menu item 2'});
+    $(el).dropdown({position: $(el).attr('data-position'), content: 'Menu item 1<br/>Menu item 2'});
 });
 
 </script>
