@@ -176,7 +176,25 @@ fly._base = {
      * @abstract
      * @private
      */
-    _action: function() {},
+    _action: function(mode) {
+        var actions = this.actions;
+
+        for (var type in actions) {
+
+            if (mode) {
+                this.$handle.on(type + this.ens, this._actionHandler(type));
+            } else {
+                this.$handle.off(type + this.ens);
+            }
+
+        }
+    },
+
+    _actionHandler: function(type) {
+        var action = this.actions[type];
+        return typeof action === 'string' ?
+            $.proxy(this[action], this) : $.proxy(action, this);
+    },
 
     /**
      * Calculates content and run callback
@@ -374,33 +392,25 @@ fly._mixin.position = function() {
  */
 fly.tooltip = fly._base.extend({
 
-    /**
-     * Toggle tooltip on hover
-     * @private
-     */
-    _action: function(mode) {
-        var that = this;
-        var timeout;
-        var $handle = this.$handle;
+    actions: {
+        'mouseenter': '_actionMouseenter',
+        'mouseleave': '_actionMouseleave'
+    },
 
-        if (mode) {
-            this.$handle
-                .on('mouseenter' + this.ens, function() {
-                    timeout = setTimeout(function() {
-                        that.show();
-                    }, 300);
-                })
-                .on('mouseleave' + this.ens, function() {
-                    if (timeout) {
-                        clearTimeout(timeout);
-                    }
-                    that.hide();
-                });
-        } else {
-            this.$handle
-                .off('mouseinter' + this.ens)
-                .off('mouseleave' + this.ens);
+    _timeout: null,
+
+    _actionMouseenter: function() {
+        var that = this;
+        this._timeout = setTimeout(function() {
+            that.show();
+        }, this.options.delay);
+    },
+
+    _actionMouseleave: function() {
+        if (this._timeout) {
+            clearTimeout(this._timeout);
         }
+        this.hide();
     },
 
     /**
@@ -413,7 +423,8 @@ fly.tooltip = fly._base.extend({
         extraClass: '',
 
         position: 'bottom center',
-        arrowSize: 10
+        arrowSize: 10,
+        delay: 300
     },
 
     _rect: fly._mixin.rect,
@@ -431,24 +442,15 @@ fly.tooltip = fly._base.extend({
  */
 fly.dropdown = fly._base.extend({
 
-    /**
-     * Toggles dropdown on handle click
-     * Hides dropdown on click out of one and ESC
-     * @private
-     */
-    _action: function(mode) {
-        if (mode) {
-            this.$handle.on('click' + this.ens, $.proxy(this._bindAction, this));
-        } else {
-            this.$handle.off('click' + this.ens);
-        }
+    actions: {
+        'click': '_actionClick'
     },
 
     /**
      * Bind action helper
      * @private
      */
-    _bindAction: function() {
+    _actionClick: function() {
         var that = this;
         var $root = this.root();
         var $handle = this.$handle;

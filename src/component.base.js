@@ -150,7 +150,25 @@ fly._base = {
      * @abstract
      * @private
      */
-    _action: function() {},
+    _action: function(mode) {
+        var actions = this.actions;
+
+        for (var type in actions) {
+
+            if (mode) {
+                this.$handle.on(type + this.ens, this._actionHandler(type));
+            } else {
+                this.$handle.off(type + this.ens);
+            }
+
+        }
+    },
+
+    _actionHandler: function(type) {
+        var action = this.actions[type];
+        return typeof action === 'string' ?
+            $.proxy(this[action], this) : $.proxy(action, this);
+    },
 
     /**
      * Calculates content and run callback

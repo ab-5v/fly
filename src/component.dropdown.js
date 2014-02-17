@@ -9,24 +9,15 @@
  */
 fly.dropdown = fly._base.extend({
 
-    /**
-     * Toggles dropdown on handle click
-     * Hides dropdown on click out of one and ESC
-     * @private
-     */
-    _action: function(mode) {
-        if (mode) {
-            this.$handle.on('click' + this.ens, $.proxy(this._bindAction, this));
-        } else {
-            this.$handle.off('click' + this.ens);
-        }
+    actions: {
+        'click': '_actionClick'
     },
 
     /**
      * Bind action helper
      * @private
      */
-    _bindAction: function() {
+    _actionClick: function() {
         var that = this;
         var $root = this.root();
         var $handle = this.$handle;

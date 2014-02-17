@@ -9,33 +9,25 @@
  */
 fly.tooltip = fly._base.extend({
 
-    /**
-     * Toggle tooltip on hover
-     * @private
-     */
-    _action: function(mode) {
-        var that = this;
-        var timeout;
-        var $handle = this.$handle;
+    actions: {
+        'mouseenter': '_actionMouseenter',
+        'mouseleave': '_actionMouseleave'
+    },
 
-        if (mode) {
-            this.$handle
-                .on('mouseenter' + this.ens, function() {
-                    timeout = setTimeout(function() {
-                        that.show();
-                    }, 300);
-                })
-                .on('mouseleave' + this.ens, function() {
-                    if (timeout) {
-                        clearTimeout(timeout);
-                    }
-                    that.hide();
-                });
-        } else {
-            this.$handle
-                .off('mouseinter' + this.ens)
-                .off('mouseleave' + this.ens);
+    _timeout: null,
+
+    _actionMouseenter: function() {
+        var that = this;
+        this._timeout = setTimeout(function() {
+            that.show();
+        }, this.options.delay);
+    },
+
+    _actionMouseleave: function() {
+        if (this._timeout) {
+            clearTimeout(this._timeout);
         }
+        this.hide();
     },
 
     /**
@@ -48,7 +40,8 @@ fly.tooltip = fly._base.extend({
         extraClass: '',
 
         position: 'bottom center',
-        arrowSize: 10
+        arrowSize: 10,
+        delay: 300
     },
 
     _rect: fly._mixin.rect,
