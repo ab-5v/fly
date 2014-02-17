@@ -1,7 +1,7 @@
 .fly-dropdown {
     position: absolute;
     background: #FFF;
-    box-shadow: 0 0 5px 2px rgba(0,0,0,.3), 0 0 0 1px rgba(0,0,0,.1);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1),0 8px 30px -5px rgba(0,0,0,.5);
     -webkit-transform: translate3d(0, 0, 0);
         -ms-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
