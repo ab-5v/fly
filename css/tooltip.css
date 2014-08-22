@@ -15,6 +15,7 @@
     position: absolute;
     width: 10px;
     height: 10px;
+    border: inherit;
     background: inherit;
     box-shadow: inherit;
     z-index: -1;
