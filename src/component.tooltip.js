@@ -1,6 +1,6 @@
 
 /**
- * Dropdown
+ * Tooltip
  *
  * @requires fly._base
  * @requires mixin.position
