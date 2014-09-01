@@ -76,6 +76,7 @@
     right: 0;
     bottom: 0;
     background: inherit;
+    border-radius: inherit;
     z-index: -1;
 }
 
