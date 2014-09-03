@@ -106,10 +106,10 @@ fly._base = {
      */
     root: function() {
 
-        if (!this.$root) {
+        if (!this._$root) {
             var opt = this.options;
 
-            this.$root = $('<div/>')
+            this._$root = $('<div/>')
                 .addClass(opt.baseClass)
                 .addClass(opt.extraClass)
                 .addClass(opt.hideClass)
@@ -118,7 +118,7 @@ fly._base = {
             this.trigger(this.EVENTS.ROOTREADY);
         }
 
-        return this.$root;
+        return this._$root;
     },
 
     /**
@@ -171,8 +171,7 @@ fly._base = {
     },
 
     /**
-     * Calculates content and run callback
-     *
+     * Calculates content and run callback *
      * @private
      * @param {Function} done
      */
@@ -238,6 +237,8 @@ fly._base = {
      * Hides fly
      */
     hide: function() {
+        if (this.hidden()) { return; }
+
         this.trigger(this.EVENTS.HIDE);
 
         this.root()
@@ -256,7 +257,7 @@ fly._base = {
      * @return Boolean
      */
     hidden: function() {
-        return this.root().hasClass( this.options.hideClass);
+        return !this._$root || this.root().hasClass(this.options.hideClass);
     }
 };
 
