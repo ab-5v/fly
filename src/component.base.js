@@ -6,10 +6,10 @@ fly._base = {
      * Avaliable events
      * @enum
      */
-    EVENTS: {
-        HIDE: 'hide',
-        SHOW: 'show',
-        ROOTREADY: 'rootready'
+    events: {
+        hide: 'hide',
+        show: 'show',
+        rootready: 'rootready'
     },
 
     /**
@@ -115,7 +115,7 @@ fly._base = {
                 .addClass(opt.hideClass)
                 .appendTo('body');
 
-            this.trigger(this.EVENTS.ROOTREADY);
+            this.trigger(this.events.rootready);
         }
 
         return this._$root;
@@ -223,7 +223,7 @@ fly._base = {
         var mod = opt.position.split(' ');
         var base = opt.baseClass;
 
-        this.trigger(this.EVENTS.SHOW);
+        this.trigger(this.events.show);
 
         this.root()
             .html( content || '' )
@@ -239,7 +239,7 @@ fly._base = {
     hide: function() {
         if (this.hidden()) { return; }
 
-        this.trigger(this.EVENTS.HIDE);
+        this.trigger(this.events.hide);
 
         this.root()
             .addClass(this.options.hideClass);

@@ -26,7 +26,7 @@ fly.dropdown = fly._base.extend({
             return this.hide();
         }
 
-        this.one(that.EVENTS.HIDE, function() {
+        this.one(that.events.hide, function() {
             $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
