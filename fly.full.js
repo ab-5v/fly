@@ -1,7 +1,8 @@
 /*!
  * @name fly
- * @version v0.0.2
+ * @version v0.0.3
  * @author Artur Burtsev <artjock@gmail.com>
+ * @see https://github.com/artjock/fly
  */
 ;(function() {
 
@@ -32,10 +33,10 @@ fly._base = {
      * Avaliable events
      * @enum
      */
-    EVENTS: {
-        HIDE: 'hide',
-        SHOW: 'show',
-        ROOTREADY: 'rootready'
+    events: {
+        hide: 'hide',
+        show: 'show',
+        rootready: 'rootready'
     },
 
     /**
@@ -72,7 +73,8 @@ fly._base = {
      * @static
      */
     defaults: {
-        content: ''
+        content: '',
+        redrawOnShow: true
     },
 
     /**
@@ -132,19 +134,19 @@ fly._base = {
      */
     root: function() {
 
-        if (!this.$root) {
+        if (!this._$root) {
             var opt = this.options;
 
-            this.$root = $('<div/>')
+            this._$root = $('<div/>')
                 .addClass(opt.baseClass)
                 .addClass(opt.extraClass)
                 .addClass(opt.hideClass)
                 .appendTo('body');
 
-            this.trigger(this.EVENTS.ROOTREADY);
+            this.trigger(this.events.rootready);
         }
 
-        return this.$root;
+        return this._$root;
     },
 
     /**
@@ -176,11 +178,28 @@ fly._base = {
      * @abstract
      * @private
      */
-    _action: function() {},
+    _action: function(mode) {
+        var actions = this.actions;
+
+        for (var type in actions) {
+
+            if (mode) {
+                this.$handle.bind(type + this.ens, this._actionHandler(type));
+            } else {
+                this.$handle.unbind(type + this.ens);
+            }
+
+        }
+    },
+
+    _actionHandler: function(type) {
+        var action = this.actions[type];
+        return typeof action === 'string' ?
+            $.proxy(this[action], this) : $.proxy(action, this);
+    },
 
     /**
-     * Calculates content and run callback
-     *
+     * Calculates content and run callback *
      * @private
      * @param {Function} done
      */
@@ -196,6 +215,27 @@ fly._base = {
         } else {
             done( content );
         }
+    },
+
+    /**
+     * Fills root element with content
+     *
+     * @param {String} content
+     */
+    _render: function(content) {
+        this.root()
+            .html(content || '');
+        this._rendered = true;
+    },
+
+    /**
+     * Generates CSS classes for current position options
+     */
+    _modCss: function() {
+        var mod = this.options.position.split(' ');
+        var base = this.options.baseClass;
+
+        return [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ');
     },
 
     /**
@@ -219,34 +259,37 @@ fly._base = {
 
     /**
      * Shows fly
+     *
+     * If you will pass a content, it will force rendering
+     *
      * @param {HTMLElement|String} content
      */
     show: function(content) {
+        var redraw = this.options.redrawOnShow || !this._rendered;
 
-        if (!arguments.length) {
+        if (redraw && !arguments.length) {
             return this._content( $.proxy(this.show, this) );
         }
 
-        var opt = this.options;
-        var pos = this._position();
-        var mod = opt.position.split(' ');
-        var base = opt.baseClass;
+        if (arguments.length) {
+            this._render(content);
+        }
 
-        this.trigger(this.EVENTS.SHOW);
+        this.trigger(this.events.show);
 
         this.root()
-            .html( content || '' )
             .css( this._position() )
-            .addClass( [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ') );
-
-        this.root().removeClass(opt.hideClass);
+            .addClass( this._modCss() )
+            .removeClass( opt.hideClass );
     },
 
     /**
      * Hides fly
      */
     hide: function() {
-        this.trigger(this.EVENTS.HIDE);
+        if (this.hidden()) { return; }
+
+        this.trigger(this.events.hide);
 
         this.root()
             .addClass(this.options.hideClass);
@@ -264,7 +307,7 @@ fly._base = {
      * @return Boolean
      */
     hidden: function() {
-        return this.root().hasClass( this.options.hideClass);
+        return !this._$root || this.root().hasClass(this.options.hideClass);
     }
 };
 
@@ -272,9 +315,10 @@ fly._base = {
 /**
 * Adds jquery events support
 */
-$.each(['on', 'off', 'one', 'trigger'], function(i, type) {
+$.each(['bind', 'unbind', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
+        return this;
     };
 });
 
@@ -365,7 +409,7 @@ fly._mixin.position = function() {
 
 
 /**
- * Dropdown
+ * Tooltip
  *
  * @requires fly._base
  * @requires mixin.position
@@ -374,33 +418,25 @@ fly._mixin.position = function() {
  */
 fly.tooltip = fly._base.extend({
 
-    /**
-     * Toggle tooltip on hover
-     * @private
-     */
-    _action: function(mode) {
-        var that = this;
-        var timeout;
-        var $handle = this.$handle;
+    actions: {
+        'mouseenter': '_actionMouseenter',
+        'mouseleave': '_actionMouseleave'
+    },
 
-        if (mode) {
-            this.$handle
-                .on('mouseenter' + this.ens, function() {
-                    timeout = setTimeout(function() {
-                        that.show();
-                    }, 300);
-                })
-                .on('mouseleave' + this.ens, function() {
-                    if (timeout) {
-                        clearTimeout(timeout);
-                    }
-                    that.hide();
-                });
-        } else {
-            this.$handle
-                .off('mouseinter' + this.ens)
-                .off('mouseleave' + this.ens);
+    _timeout: null,
+
+    _actionMouseenter: function() {
+        var that = this;
+        this._timeout = setTimeout(function() {
+            that.show();
+        }, this.options.delay);
+    },
+
+    _actionMouseleave: function() {
+        if (this._timeout) {
+            clearTimeout(this._timeout);
         }
+        this.hide();
     },
 
     /**
@@ -413,7 +449,8 @@ fly.tooltip = fly._base.extend({
         extraClass: '',
 
         position: 'bottom center',
-        arrowSize: 10
+        arrowSize: 10,
+        delay: 300
     },
 
     _rect: fly._mixin.rect,
@@ -431,24 +468,15 @@ fly.tooltip = fly._base.extend({
  */
 fly.dropdown = fly._base.extend({
 
-    /**
-     * Toggles dropdown on handle click
-     * Hides dropdown on click out of one and ESC
-     * @private
-     */
-    _action: function(mode) {
-        if (mode) {
-            this.$handle.on('click' + this.ens, $.proxy(this._bindAction, this));
-        } else {
-            this.$handle.off('click' + this.ens);
-        }
+    actions: {
+        'click': '_actionClick'
     },
 
     /**
      * Bind action helper
      * @private
      */
-    _bindAction: function() {
+    _actionClick: function() {
         var that = this;
         var $root = this.root();
         var $handle = this.$handle;
@@ -457,18 +485,18 @@ fly.dropdown = fly._base.extend({
             return this.hide();
         }
 
-        this.one(that.EVENTS.HIDE, function() {
-            $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+        this.one(that.events.hide, function() {
+            $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
         $(document)
-            .on('click' + that.ens, function(evt) {
+            .bind('click' + that.ens, function(evt) {
                 var target = evt.target;
                 if ( out($root, target) && out($handle, target) ) {
                     that.hide();
                 }
             })
-            .on('keydown' + that.ens, function(evt) {
+            .bind('keydown' + that.ens, function(evt) {
                 if (evt.which === 27) { that.hide(); }
             });
 
