@@ -175,25 +175,25 @@ fly._base = {
 
     /**
      * Binds action to $handle
-     * @abstract
      * @private
+     * @param {Boolean} mode
      */
-    _action: function(mode) {
-        var actions = this.actions;
+    _action: function(mode, actions, handle) {
+        handle = handle || this.$handle;
+        actions = actions || this.actions;
 
         for (var type in actions) {
 
             if (mode) {
-                this.$handle.bind(type + this.ens, this._actionHandler(type));
+                handle.bind(type + this.ens, this._actionHandler( actions[type] ));
             } else {
-                this.$handle.unbind(type + this.ens);
+                handle.unbind(type + this.ens);
             }
 
         }
     },
 
-    _actionHandler: function(type) {
-        var action = this.actions[type];
+    _actionHandler: function(action) {
         return typeof action === 'string' ?
             $.proxy(this[action], this) : $.proxy(action, this);
     },
@@ -505,6 +505,18 @@ fly.dropdown = fly._base.extend({
         function out($root, el) {
             return $root[0] !== el && !$.contains($root[0], el);
         }
+    },
+
+    _actionResize: function() {
+        if ( this.hidden() ) { return; }
+
+        this.root().css( this._position() );
+    },
+
+    _action: function(mode) {
+        fly._base._action.apply(this, arguments);
+        fly._base._action.call(this,
+            mode, {'resize': '_actionResize'}, $(window));
     },
 
     /**

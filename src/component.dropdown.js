@@ -48,6 +48,18 @@ fly.dropdown = fly._base.extend({
         }
     },
 
+    _actionResize: function() {
+        if ( this.hidden() ) { return; }
+
+        this.root().css( this._position() );
+    },
+
+    _action: function(mode) {
+        fly._base._action.apply(this, arguments);
+        fly._base._action.call(this,
+            mode, {'resize': '_actionResize'}, $(window));
+    },
+
     /**
      * Deafult settings for dropdown
      * @type Object
