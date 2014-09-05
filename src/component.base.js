@@ -46,7 +46,8 @@ fly._base = {
      * @static
      */
     defaults: {
-        content: ''
+        content: '',
+        redrawOnShow: true
     },
 
     /**
@@ -190,6 +191,27 @@ fly._base = {
     },
 
     /**
+     * Fills root element with content
+     *
+     * @param {String} content
+     */
+    _render: function(content) {
+        this.root()
+            .html(content || '');
+        this._rendered = true;
+    },
+
+    /**
+     * Generates CSS classes for current position options
+     */
+    _modCss: function() {
+        var mod = this.options.position.split(' ');
+        var base = this.options.baseClass;
+
+        return [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ');
+    },
+
+    /**
      * Calculates fly's position
      * @abstract
      * @private
@@ -210,27 +232,28 @@ fly._base = {
 
     /**
      * Shows fly
+     *
+     * If you will pass a content, it will force rendering
+     *
      * @param {HTMLElement|String} content
      */
     show: function(content) {
+        var redraw = this.options.redrawOnShow || !this._rendered;
 
-        if (!arguments.length) {
+        if (redraw && !arguments.length) {
             return this._content( $.proxy(this.show, this) );
         }
 
-        var opt = this.options;
-        var pos = this._position();
-        var mod = opt.position.split(' ');
-        var base = opt.baseClass;
+        if (arguments.length) {
+            this._render(content);
+        }
 
         this.trigger(this.events.show);
 
         this.root()
-            .html( content || '' )
             .css( this._position() )
-            .addClass( [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ') );
-
-        this.root().removeClass(opt.hideClass);
+            .addClass( this._modCss() )
+            .removeClass( this.options.hideClass );
     },
 
     /**
