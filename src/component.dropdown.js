@@ -27,17 +27,17 @@ fly.dropdown = fly._base.extend({
         }
 
         this.one(that.EVENTS.HIDE, function() {
-            $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+            $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
         $(document)
-            .on('click' + that.ens, function(evt) {
+            .bind('click' + that.ens, function(evt) {
                 var target = evt.target;
                 if ( out($root, target) && out($handle, target) ) {
                     that.hide();
                 }
             })
-            .on('keydown' + that.ens, function(evt) {
+            .bind('keydown' + that.ens, function(evt) {
                 if (evt.which === 27) { that.hide(); }
             });
 

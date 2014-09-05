@@ -1,7 +1,8 @@
 /*!
  * @name fly
- * @version v0.0.2
+ * @version v0.0.3
  * @author Artur Burtsev <artjock@gmail.com>
+ * @see https://github.com/artjock/fly
  */
 ;(function() {
 
@@ -182,9 +183,9 @@ fly._base = {
         for (var type in actions) {
 
             if (mode) {
-                this.$handle.on(type + this.ens, this._actionHandler(type));
+                this.$handle.bind(type + this.ens, this._actionHandler(type));
             } else {
-                this.$handle.off(type + this.ens);
+                this.$handle.unbind(type + this.ens);
             }
 
         }
@@ -291,9 +292,10 @@ fly._base = {
 /**
 * Adds jquery events support
 */
-$.each(['on', 'off', 'one', 'trigger'], function(i, type) {
+$.each(['bind', 'unbind', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
+        return this;
     };
 });
 
@@ -461,17 +463,17 @@ fly.dropdown = fly._base.extend({
         }
 
         this.one(that.EVENTS.HIDE, function() {
-            $(document).off( 'click' + that.ens + ' keydown' + that.ens );
+            $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
         $(document)
-            .on('click' + that.ens, function(evt) {
+            .bind('click' + that.ens, function(evt) {
                 var target = evt.target;
                 if ( out($root, target) && out($handle, target) ) {
                     that.hide();
                 }
             })
-            .on('keydown' + that.ens, function(evt) {
+            .bind('keydown' + that.ens, function(evt) {
                 if (evt.which === 27) { that.hide(); }
             });
 

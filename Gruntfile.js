@@ -8,6 +8,7 @@ module.exports = function(grunt) {
                         ' * @name <%= bower.name %>\n' +
                         ' * @version v<%= bower.version %>\n' +
                         ' * @author <%= bower.authors[0]  %>\n' +
+                        ' * @see <%= bower.homepage %>\n' +
                         ' */\n' +
                         ';(function() {\n',
                 footer: '})();'

@@ -156,9 +156,9 @@ fly._base = {
         for (var type in actions) {
 
             if (mode) {
-                this.$handle.on(type + this.ens, this._actionHandler(type));
+                this.$handle.bind(type + this.ens, this._actionHandler(type));
             } else {
-                this.$handle.off(type + this.ens);
+                this.$handle.unbind(type + this.ens);
             }
 
         }
@@ -265,9 +265,10 @@ fly._base = {
 /**
 * Adds jquery events support
 */
-$.each(['on', 'off', 'one', 'trigger'], function(i, type) {
+$.each(['bind', 'unbind', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
         this._emmiter[type].apply(this._emmiter, arguments);
+        return this;
     };
 });
 
