@@ -280,7 +280,7 @@ fly._base = {
         this.root()
             .css( this._position() )
             .addClass( this._modCss() )
-            .removeClass( opt.hideClass );
+            .removeClass( this.options.hideClass );
     },
 
     /**
