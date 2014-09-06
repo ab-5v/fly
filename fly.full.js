@@ -478,7 +478,6 @@ fly.dropdown = fly._base.extend({
      */
     _actionClick: function() {
         var that = this;
-        var $root = this.root();
         var $handle = this.$handle;
 
         if ( !this.hidden() ) {
@@ -489,16 +488,18 @@ fly.dropdown = fly._base.extend({
             $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
-        $(document)
-            .bind('click' + that.ens, function(evt) {
-                var target = evt.target;
-                if ( out($root, target) && out($handle, target) ) {
-                    that.hide();
-                }
-            })
-            .bind('keydown' + that.ens, function(evt) {
-                if (evt.which === 27) { that.hide(); }
-            });
+        this.one(that.events.show, function() {
+            $(document)
+                .bind('click' + that.ens, function(evt) {
+                    var target = evt.target;
+                    if ( out(that.root(), target) && out($handle, target) ) {
+                        that.hide();
+                    }
+                })
+                .bind('keydown' + that.ens, function(evt) {
+                    if (evt.which === 27) { that.hide(); }
+                });
+        });
 
         this.show();
 
