@@ -53,18 +53,18 @@ fly._base = {
      */
     _$root: null,
 
+    /**
+     * Open/close trigger
+     * @type jQuery
+     * @private
+     */
+    _$handle: null,
 
     /**
      * Event emmiter
      * @type jQuery
      */
     _emmiter: null,
-
-    /**
-     * Open/close trigger
-     * @type jQuery
-     */
-    $handle: null,
 
     /**
      * Default class options
@@ -102,7 +102,7 @@ fly._base = {
 
         var inst = this.extend({
             ens: '.ns' + fly._count++,
-            $handle: $(handle),
+            _$handle: $(handle),
             _emmiter: $({})
         });
 
@@ -150,6 +150,14 @@ fly._base = {
     },
 
     /**
+     * Handle getter
+     * @return jQuery
+     */
+    handle: function() {
+        return this._$handle;
+    },
+
+    /**
      * Initializes fly
      * @private
      * @return fly
@@ -174,12 +182,12 @@ fly._base = {
     },
 
     /**
-     * Binds action to $handle
+     * Binds action to handle
      * @private
      * @param {Boolean} mode
      */
     _action: function(mode, actions, handle) {
-        handle = handle || this.$handle;
+        handle = handle || this.handle();
         actions = actions || this.actions;
 
         for (var type in actions) {
@@ -371,8 +379,8 @@ fly._mixin.position = function() {
     var arrow = pos.shift();
 
     var a = {};
-    var h = this._rect( this.$handle );
     var d = this._rect( this.root() );
+    var h = this._rect( this.handle() );
     var s = {top: $w.scrollTop(), left: $w.scrollLeft()};
 
     switch (arrow) {
@@ -478,7 +486,6 @@ fly.dropdown = fly._base.extend({
      */
     _actionClick: function() {
         var that = this;
-        var $handle = this.$handle;
 
         if ( !this.hidden() ) {
             return this.hide();
@@ -492,7 +499,7 @@ fly.dropdown = fly._base.extend({
             $(document)
                 .bind('click' + that.ens, function(evt) {
                     var target = evt.target;
-                    if ( out(that.root(), target) && out($handle, target) ) {
+                    if ( out(that.root(), target) && out(that.handle(), target) ) {
                         that.hide();
                     }
                 })
@@ -578,7 +585,7 @@ fly.register$ = function(type, component) {
 
         function destroy(component) {
             if (component) {
-                component.$handle.removeData(expando);
+                component.handle().removeData(expando);
                 component._destroy();
             }
         }

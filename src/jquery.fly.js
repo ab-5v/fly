@@ -38,7 +38,7 @@ fly.register$ = function(type, component) {
 
         function destroy(component) {
             if (component) {
-                component.$handle.removeData(expando);
+                component.handle().removeData(expando);
                 component._destroy();
             }
         }

@@ -19,8 +19,8 @@ fly._mixin.position = function() {
     var arrow = pos.shift();
 
     var a = {};
-    var h = this._rect( this.$handle );
     var d = this._rect( this.root() );
+    var h = this._rect( this.handle() );
     var s = {top: $w.scrollTop(), left: $w.scrollLeft()};
 
     switch (arrow) {

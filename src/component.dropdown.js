@@ -19,7 +19,6 @@ fly.dropdown = fly._base.extend({
      */
     _actionClick: function() {
         var that = this;
-        var $handle = this.$handle;
 
         if ( !this.hidden() ) {
             return this.hide();
@@ -33,7 +32,7 @@ fly.dropdown = fly._base.extend({
             $(document)
                 .bind('click' + that.ens, function(evt) {
                     var target = evt.target;
-                    if ( out(that.root(), target) && out($handle, target) ) {
+                    if ( out(that.root(), target) && out(that.handle(), target) ) {
                         that.hide();
                     }
                 })
