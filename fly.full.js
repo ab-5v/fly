@@ -95,7 +95,6 @@ fly._base = {
      * Creates instance of fly
      * @param {jQuery} handle
      * @param {Object} options
-     * @static
      * @return fly
      */
     create: function(handle, options) {
@@ -114,7 +113,6 @@ fly._base = {
     /**
      * Extends fly's class and returns new one
      * @param {Object} extra
-     * @static
      * @return fly
      */
     extend: function(extra) {
@@ -125,7 +123,13 @@ fly._base = {
                 $.extend({}, this.defaults, extra.defaults);
         }
 
-        return $.extend(new this._ctor(), extra);
+        var component = $.extend(new this._ctor(), extra);
+
+        if (extra.register$) {
+            fly.register$(extra.register$, component);
+        }
+
+        return component;
     },
 
     /**
