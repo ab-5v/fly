@@ -7,7 +7,13 @@
 
 $.fly = fly;
 
-$.each(fly, function(type, component) {
+/**
+ * Registers fly component, as jquery plugin
+ * @static
+ * @param {String} name
+ * @param {Fly} component
+ */
+fly.register$ = function(type, component) {
     if ( component === fly._base || !(component instanceof fly._base._ctor) ) {
         return;
     }
@@ -37,5 +43,6 @@ $.each(fly, function(type, component) {
             }
         }
     };
-});
+};
 
+$.each(fly, fly.register$);
