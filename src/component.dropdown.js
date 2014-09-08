@@ -10,14 +10,13 @@
 fly.dropdown = fly._base.extend({
 
     actions: {
-        'click': '_actionClick'
+        'click': 'onclick'
     },
 
     /**
-     * Bind action helper
-     * @private
+     * Default click action for dropdown
      */
-    _actionClick: function() {
+    onclick: function() {
         var that = this;
 
         if ( !this.hidden() ) {
@@ -48,16 +47,25 @@ fly.dropdown = fly._base.extend({
         }
     },
 
-    _actionResize: function() {
+    /**
+     * Default window.onresize handler for dropdown
+     */
+    onresize: function() {
         if ( this.hidden() ) { return; }
 
         this.root().css( this._position() );
     },
 
+    /**
+     * Base _action + window resize handler
+     *
+     * @private
+     * @param {Boolean} mode
+     */
     _action: function(mode) {
         fly._base._action.apply(this, arguments);
         fly._base._action.call(this,
-            mode, {'resize': '_actionResize'}, $(window));
+            mode, {'resize': 'onresize'}, $(window));
     },
 
     /**

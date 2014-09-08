@@ -10,20 +10,30 @@
 fly.tooltip = fly._base.extend({
 
     actions: {
-        'mouseenter': '_actionMouseenter',
-        'mouseleave': '_actionMouseleave'
+        'mouseenter': 'onmouseenter',
+        'mouseleave': 'onmouseleave'
     },
 
+    /**
+     * Delay timeout reference
+     * @private
+     */
     _timeout: null,
 
-    _actionMouseenter: function() {
+    /**
+     * Default mouseenter action for tooltip
+     */
+    onmouseenter: function() {
         var that = this;
         this._timeout = setTimeout(function() {
             that.show();
         }, this.options.delay);
     },
 
-    _actionMouseleave: function() {
+    /**
+     * Default mouseleave action for tooltip
+     */
+    onmouseleave: function() {
         if (this._timeout) {
             clearTimeout(this._timeout);
         }
