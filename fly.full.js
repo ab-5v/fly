@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.3
+ * @version v0.0.4
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
