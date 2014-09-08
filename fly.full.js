@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.3
+ * @version v0.0.4
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -53,18 +53,18 @@ fly._base = {
      */
     _$root: null,
 
+    /**
+     * Open/close trigger
+     * @type jQuery
+     * @private
+     */
+    _$handle: null,
 
     /**
      * Event emmiter
      * @type jQuery
      */
     _emmiter: null,
-
-    /**
-     * Open/close trigger
-     * @type jQuery
-     */
-    $handle: null,
 
     /**
      * Default class options
@@ -95,14 +95,13 @@ fly._base = {
      * Creates instance of fly
      * @param {jQuery} handle
      * @param {Object} options
-     * @static
      * @return fly
      */
     create: function(handle, options) {
 
         var inst = this.extend({
             ens: '.ns' + fly._count++,
-            $handle: $(handle),
+            _$handle: $(handle),
             _emmiter: $({})
         });
 
@@ -114,7 +113,6 @@ fly._base = {
     /**
      * Extends fly's class and returns new one
      * @param {Object} extra
-     * @static
      * @return fly
      */
     extend: function(extra) {
@@ -125,7 +123,13 @@ fly._base = {
                 $.extend({}, this.defaults, extra.defaults);
         }
 
-        return $.extend(new this._ctor(), extra);
+        var component = $.extend(new this._ctor(), extra);
+
+        if (extra.register$) {
+            fly.register$(extra.register$, component);
+        }
+
+        return component;
     },
 
     /**
@@ -147,6 +151,14 @@ fly._base = {
         }
 
         return this._$root;
+    },
+
+    /**
+     * Handle getter
+     * @return jQuery
+     */
+    handle: function() {
+        return this._$handle;
     },
 
     /**
@@ -174,26 +186,26 @@ fly._base = {
     },
 
     /**
-     * Binds action to $handle
-     * @abstract
+     * Binds action to handle
      * @private
+     * @param {Boolean} mode
      */
-    _action: function(mode) {
-        var actions = this.actions;
+    _action: function(mode, actions, handle) {
+        handle = handle || this.handle();
+        actions = actions || this.actions;
 
         for (var type in actions) {
 
             if (mode) {
-                this.$handle.bind(type + this.ens, this._actionHandler(type));
+                handle.bind(type + this.ens, this._actionHandler( actions[type] ));
             } else {
-                this.$handle.unbind(type + this.ens);
+                handle.unbind(type + this.ens);
             }
 
         }
     },
 
-    _actionHandler: function(type) {
-        var action = this.actions[type];
+    _actionHandler: function(action) {
         return typeof action === 'string' ?
             $.proxy(this[action], this) : $.proxy(action, this);
     },
@@ -371,8 +383,8 @@ fly._mixin.position = function() {
     var arrow = pos.shift();
 
     var a = {};
-    var h = this._rect( this.$handle );
     var d = this._rect( this.root() );
+    var h = this._rect( this.handle() );
     var s = {top: $w.scrollTop(), left: $w.scrollLeft()};
 
     switch (arrow) {
@@ -478,8 +490,6 @@ fly.dropdown = fly._base.extend({
      */
     _actionClick: function() {
         var that = this;
-        var $root = this.root();
-        var $handle = this.$handle;
 
         if ( !this.hidden() ) {
             return this.hide();
@@ -489,22 +499,36 @@ fly.dropdown = fly._base.extend({
             $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
         });
 
-        $(document)
-            .bind('click' + that.ens, function(evt) {
-                var target = evt.target;
-                if ( out($root, target) && out($handle, target) ) {
-                    that.hide();
-                }
-            })
-            .bind('keydown' + that.ens, function(evt) {
-                if (evt.which === 27) { that.hide(); }
-            });
+        this.one(that.events.show, function() {
+            $(document)
+                .bind('click' + that.ens, function(evt) {
+                    var target = evt.target;
+                    if ( out(that.root(), target) && out(that.handle(), target) ) {
+                        that.hide();
+                    }
+                })
+                .bind('keydown' + that.ens, function(evt) {
+                    if (evt.which === 27) { that.hide(); }
+                });
+        });
 
         this.show();
 
         function out($root, el) {
             return $root[0] !== el && !$.contains($root[0], el);
         }
+    },
+
+    _actionResize: function() {
+        if ( this.hidden() ) { return; }
+
+        this.root().css( this._position() );
+    },
+
+    _action: function(mode) {
+        fly._base._action.apply(this, arguments);
+        fly._base._action.call(this,
+            mode, {'resize': '_actionResize'}, $(window));
     },
 
     /**
@@ -534,7 +558,13 @@ fly.dropdown = fly._base.extend({
 
 $.fly = fly;
 
-$.each(fly, function(type, component) {
+/**
+ * Registers fly component, as jquery plugin
+ * @static
+ * @param {String} name
+ * @param {Fly} component
+ */
+fly.register$ = function(type, component) {
     if ( component === fly._base || !(component instanceof fly._base._ctor) ) {
         return;
     }
@@ -559,11 +589,12 @@ $.each(fly, function(type, component) {
 
         function destroy(component) {
             if (component) {
-                component.$handle.removeData(expando);
+                component.handle().removeData(expando);
                 component._destroy();
             }
         }
     };
-});
+};
 
+$.each(fly, fly.register$);
 })();
