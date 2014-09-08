@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.4
+ * @version v0.0.5
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -431,20 +431,30 @@ fly._mixin.position = function() {
 fly.tooltip = fly._base.extend({
 
     actions: {
-        'mouseenter': '_actionMouseenter',
-        'mouseleave': '_actionMouseleave'
+        'mouseenter': 'onmouseenter',
+        'mouseleave': 'onmouseleave'
     },
 
+    /**
+     * Delay timeout reference
+     * @private
+     */
     _timeout: null,
 
-    _actionMouseenter: function() {
+    /**
+     * Default mouseenter action for tooltip
+     */
+    onmouseenter: function() {
         var that = this;
         this._timeout = setTimeout(function() {
             that.show();
         }, this.options.delay);
     },
 
-    _actionMouseleave: function() {
+    /**
+     * Default mouseleave action for tooltip
+     */
+    onmouseleave: function() {
         if (this._timeout) {
             clearTimeout(this._timeout);
         }
@@ -481,14 +491,13 @@ fly.tooltip = fly._base.extend({
 fly.dropdown = fly._base.extend({
 
     actions: {
-        'click': '_actionClick'
+        'click': 'onclick'
     },
 
     /**
-     * Bind action helper
-     * @private
+     * Default click action for dropdown
      */
-    _actionClick: function() {
+    onclick: function() {
         var that = this;
 
         if ( !this.hidden() ) {
@@ -519,16 +528,25 @@ fly.dropdown = fly._base.extend({
         }
     },
 
-    _actionResize: function() {
+    /**
+     * Default window.onresize handler for dropdown
+     */
+    onresize: function() {
         if ( this.hidden() ) { return; }
 
         this.root().css( this._position() );
     },
 
+    /**
+     * Base _action + window resize handler
+     *
+     * @private
+     * @param {Boolean} mode
+     */
     _action: function(mode) {
         fly._base._action.apply(this, arguments);
         fly._base._action.call(this,
-            mode, {'resize': '_actionResize'}, $(window));
+            mode, {'resize': 'onresize'}, $(window));
     },
 
     /**
