@@ -309,9 +309,11 @@ fly._base = {
 
     /**
      * Toggles visibility of the fly
+     * @param {Boolean} mode
      */
-    toggle: function() {
-        this[this.hidden() ? 'show' : 'hide']();
+    toggle: function(mode) {
+        mode = arguments.length ? mode : this.hidden();
+        this[mode ? 'show' : 'hide']();
     },
 
     /**

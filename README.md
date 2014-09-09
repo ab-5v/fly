@@ -16,7 +16,7 @@ Is an abstract class you can extend to build your own popover type. You can find
 - [options.content](#optionscontent)
 - [show(content)](#show)
 - [hide()](#hide)
-- [toggle()](#toggle)
+- [toggle(mode)](#togglemode)
 - [hidden()](#hidden)
 - [root()](#root)
 - [handle()](#handle)
@@ -91,8 +91,8 @@ Defines rules to get popover's content, can be:
 ### show(content)
 Shows popover and triggers appropriate events. If `content` passed it will be shown, otherwise `options.content` will be called to calculate content.
 
-### hide()/toggle()
-Hides/triggers popover
+### hide()/toggle(mode)
+Hides/toggles popover
 
 ### hidden()
 Returns `true` if popover is visible and `false` otherwise
