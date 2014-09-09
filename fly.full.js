@@ -64,7 +64,7 @@ fly._base = {
      * Event emmiter
      * @type jQuery
      */
-    _emmiter: null,
+    _emitter: null,
 
     /**
      * Default class options
@@ -102,7 +102,7 @@ fly._base = {
         var inst = this.extend({
             ens: '.ns' + fly._count++,
             _$handle: $(handle),
-            _emmiter: $({})
+            _emitter: $({})
         });
 
         inst.options = $.extend({}, inst.defaults, options);
@@ -329,7 +329,7 @@ fly._base = {
 */
 $.each(['bind', 'unbind', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
-        this._emmiter[type].apply(this._emmiter, arguments);
+        this._emitter[type].apply(this._emitter, arguments);
         return this;
     };
 });
