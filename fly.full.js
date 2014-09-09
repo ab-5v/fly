@@ -133,6 +133,12 @@ fly._base = {
     },
 
     /**
+     * Rootrady callback
+     * @virtual
+     */
+    onrootready: function() {},
+
+    /**
      * Lazy fly's getter
      * @return jQuery
      */
@@ -168,6 +174,7 @@ fly._base = {
      */
     _init: function() {
         this._action(true);
+        this.bind(this.events.rootready, $.proxy(this.onrootready, this));
         this.init();
         return this;
     },
