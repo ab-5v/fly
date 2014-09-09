@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.6
+ * @version v0.0.7
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -323,7 +323,9 @@ fly._base = {
 
         this._content(function(content) {
             that._render(content);
-            done(content);
+            if (typeof done === 'function') {
+                done(content);
+            }
         });
     },
 
