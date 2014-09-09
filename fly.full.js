@@ -308,6 +308,19 @@ fly._base = {
     },
 
     /**
+     * Force content rendering
+     * @param {function} done
+     */
+    redraw: function(done) {
+        var that = this;
+
+        this._content(function(content) {
+            that._render(content);
+            done(content);
+        });
+    },
+
+    /**
      * Toggles visibility of the fly
      * @param {Boolean} mode
      */

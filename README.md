@@ -17,6 +17,7 @@ Is an abstract class you can extend to build your own popover type. You can find
 - [show(content)](#show)
 - [hide()](#hide)
 - [toggle(mode)](#togglemode)
+- [redraw(done)](#redraw)
 - [hidden()](#hidden)
 - [root()](#root)
 - [handle()](#handle)
