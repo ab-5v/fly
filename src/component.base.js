@@ -296,7 +296,9 @@ fly._base = {
 
         this._content(function(content) {
             that._render(content);
-            done(content);
+            if (typeof done === 'function') {
+                done(content);
+            }
         });
     },
 
