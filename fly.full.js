@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.5
+ * @version v0.0.6
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -64,7 +64,7 @@ fly._base = {
      * Event emmiter
      * @type jQuery
      */
-    _emmiter: null,
+    _emitter: null,
 
     /**
      * Default class options
@@ -102,7 +102,7 @@ fly._base = {
         var inst = this.extend({
             ens: '.ns' + fly._count++,
             _$handle: $(handle),
-            _emmiter: $({})
+            _emitter: $({})
         });
 
         inst.options = $.extend({}, inst.defaults, options);
@@ -131,6 +131,12 @@ fly._base = {
 
         return component;
     },
+
+    /**
+     * Rootrady callback
+     * @virtual
+     */
+    onrootready: function() {},
 
     /**
      * Lazy fly's getter
@@ -168,6 +174,7 @@ fly._base = {
      */
     _init: function() {
         this._action(true);
+        this.bind(this.events.rootready, $.proxy(this.onrootready, this));
         this.init();
         return this;
     },
@@ -308,10 +315,25 @@ fly._base = {
     },
 
     /**
-     * Toggles visibility of the fly
+     * Force content rendering
+     * @param {function} done
      */
-    toggle: function() {
-        this[this.hidden() ? 'show' : 'hide']();
+    redraw: function(done) {
+        var that = this;
+
+        this._content(function(content) {
+            that._render(content);
+            done(content);
+        });
+    },
+
+    /**
+     * Toggles visibility of the fly
+     * @param {Boolean} mode
+     */
+    toggle: function(mode) {
+        mode = arguments.length ? mode : this.hidden();
+        this[mode ? 'show' : 'hide']();
     },
 
     /**
@@ -329,7 +351,7 @@ fly._base = {
 */
 $.each(['bind', 'unbind', 'one', 'trigger'], function(i, type) {
     fly._base[type] = function() {
-        this._emmiter[type].apply(this._emmiter, arguments);
+        this._emitter[type].apply(this._emitter, arguments);
         return this;
     };
 });
