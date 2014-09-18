@@ -29,3 +29,15 @@
     padding: 40px;
 }
 
+.container {
+    width: 600px;
+    margin: 100px auto;
+}
+.container--generator>span {
+    display: inline-block;
+    margin: 0 20px 20px 0;
+    padding: 10px;
+    background: #e67e22;
+    cursor: pointer;
+}
+

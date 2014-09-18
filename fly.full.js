@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.7
+ * @version v0.0.8
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -615,19 +615,25 @@ fly.register$ = function(type, component) {
 
     $.fn[ type ] = function(options) {
 
-        return this.each(function(i, $this) {
+        var retVal;
+
+        this.each(function(i) {
+            if (retVal) { return false; }
+
             var $el = $(this);
             var old = $el.data(expando);
 
             switch (options) {
 
-                case 'instance': return old;
+                case 'instance': retVal = old; break;
                 case 'destroy': destroy(old); break;
                 default:
                     destroy(old);
                     $el.data(expando, component.create($el, options));
             }
         });
+
+        return retVal || this;
 
         function destroy(component) {
             if (component) {
