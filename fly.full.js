@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.9
+ * @version v0.0.10
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -549,38 +549,27 @@ fly.dropdown = fly._base.extend({
         this._autohide(mode);
     },
 
-    /**
-     * Dropdown can be closed by clicking outside or pressing ESC
-     *
+    /** * Dropdown can be closed by clicking outside or pressing ESC *
      * @private
      * @param {boolean} mode
      */
     _autohide: function(mode) {
         var that = this;
+        var events = 'click' + that.ens + ' keydown' + that.ens;
 
         if (!mode) { return; }
 
-        this.bind(this.events.hide, function() {
-            $(document).unbind( 'click' + that.ens + ' keydown' + that.ens );
-        });
+        this
+            .bind(this.events.show, function() { setTimeout(onshow, 0); })
+            .bind(this.events.hide, function() { $(document).unbind(events); });
 
-        this.bind(this.events.show, function() {
-            setTimeout(function() {
-                $(document)
-                    .bind('click' + that.ens, function(evt) {
-                        var target = evt.target;
-                        if ( out(that.root(), target) && out(that.handle(), target) ) {
-                            that.hide();
-                        }
-                    })
-                    .bind('keydown' + that.ens, function(evt) {
-                        if (evt.which === 27) { that.hide(); }
-                    });
-            }, 0);
-        });
-
-        function out($root, el) {
-            return $root[0] !== el && !$.contains($root[0], el);
+        function onshow() {
+            $(document).bind(events, function(evt) {
+                var el = evt.target, root = that.root()[0];
+                if ( evt.which === 27 || el !== root && !$.contains(root, el) ) {
+                    that.hide();
+                }
+            });
         }
     },
 
