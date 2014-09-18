@@ -18,10 +18,10 @@ $(function() {
 
         $(this).parent().append($handle);
 
-        $handle.dropdown({content: 'Hello ' + count});
-        setTimeout(function() {
-            $handle.dropdown('instance').onclick();
-        }, 10);
+        $handle
+            .dropdown({content: 'Hello ' + count})
+            .dropdown('instance')
+                .show();
     });
 
     var count = 0;
@@ -31,10 +31,6 @@ $(function() {
 
         $(this).parent().append($handle);
 
-        var dropdown = $.fly.dropdown.create($handle, {content: 'Hello ' + count});
-
-        setTimeout(function() {
-            dropdown.onclick();
-        }, 10);
+        $.fly.dropdown.create($handle, {content: 'Hello ' + count}).show();
     });
 });
