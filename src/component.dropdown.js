@@ -44,7 +44,8 @@ fly.dropdown = fly._base.extend({
         this._autohide(mode);
     },
 
-    /** * Dropdown can be closed by clicking outside or pressing ESC *
+    /**
+     * Dropdown can be closed by clicking outside or pressing ESC
      * @private
      * @param {boolean} mode
      */
@@ -61,7 +62,10 @@ fly.dropdown = fly._base.extend({
         function onshow() {
             $(document).bind(events, function(evt) {
                 var el = evt.target, root = that.root()[0];
-                if ( evt.which === 27 || el !== root && !$.contains(root, el) ) {
+                if (
+                    evt.type === 'keydown' && evt.which === 27 ||
+                    evt.type === 'click' && el !== root && !$.contains(root, el)
+                ) {
                     that.hide();
                 }
             });
