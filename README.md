@@ -11,6 +11,7 @@ Is an abstract class you can extend to build your own popover type. You can find
 
 - [extend(extra)](#extendextra)
 - [create(options)](#createoptions)
+- [delegate(selector, options)](#delegateselectoroptions)
 - [fly.register$](#flyregister)
 - [defaults](#defaults)
 - [options.content](#optionscontent)
@@ -47,6 +48,15 @@ Creates an instance of class with a given options:
 $('.js-titletip').each(function() {
     titletip.create(this, {position: $(this).data('position'));
 });
+```
+
+### delegate(selector, options)
+Delegates class on `selector`, creates instance with `options` on every first event from `actions`
+```js
+fly.tooltip
+    .extend({})
+    .delegate('.js-live-tooltip', { content: 'live' })
+;
 ```
 
 ### defaults
