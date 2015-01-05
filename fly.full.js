@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.10
+ * @version v0.0.12
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -38,6 +38,8 @@ fly._base = {
         show: 'show',
         rootready: 'rootready'
     },
+
+    _cuid: fly._count++,
 
     /**
      * Shared constructor
@@ -125,11 +127,33 @@ fly._base = {
 
         var component = $.extend(new this._ctor(), extra);
 
+        component._cuid = fly._count++;
+
         if (extra.register$) {
             fly.register$(extra.register$, component);
         }
 
         return component;
+    },
+
+    /**
+     * Adds listeners for component's action list
+     * @param {string} selector
+     * @param {Object} options
+     */
+    delegate: function(selector, options) {
+        var that = this;
+        var expando = 'fly_delegated_' + that._cuid;
+
+        $.each(that.actions, function(action) {
+            $(document.body).delegate(selector, action, function() {
+                if ($(this).data(expando)) { return; }
+
+                var inst = that.create(this, options);
+                inst.handle().data(expando, 1);
+                inst._actionHandler(inst.actions[action]).apply(inst, arguments);
+            });
+        });
     },
 
     /**

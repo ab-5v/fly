@@ -33,4 +33,14 @@ $(function() {
 
         $.fly.dropdown.create($handle, {content: 'Hello ' + count}).show();
     });
+
+    $.fly.dropdown
+        .extend({})
+        .delegate('.js-delegated', { content: 'delegated' })
+    ;
+
+    $.fly.tooltip
+        .extend({})
+        .delegate('.js-delegated-tooltip', {content: function() { return this.handle().text(); }})
+    ;
 });
