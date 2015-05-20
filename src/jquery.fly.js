@@ -14,7 +14,7 @@ $.fly = fly;
  * @param {Fly} component
  */
 fly.register$ = function(type, component) {
-    if ( component === fly._base || !(component instanceof fly._base._ctor) ) {
+    if ( component === fly._base || !(component instanceof fly._base._ctor) || $.fn[type] ) {
         return;
     }
 

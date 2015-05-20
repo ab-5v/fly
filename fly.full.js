@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.12
+ * @version v0.0.14
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -636,7 +636,7 @@ $.fly = fly;
  * @param {Fly} component
  */
 fly.register$ = function(type, component) {
-    if ( component === fly._base || !(component instanceof fly._base._ctor) ) {
+    if ( component === fly._base || !(component instanceof fly._base._ctor) || $.fn[type] ) {
         return;
     }
 
