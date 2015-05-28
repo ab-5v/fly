@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.13
+ * @version v0.0.14
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -433,7 +433,8 @@ fly._mixin.position = function() {
     var a = {};
     var d = this._rect( this.root() );
     var h = this._rect( this.handle() );
-    var s = {top: $w.scrollTop(), left: $w.scrollLeft()};
+    var f = this.root().css('position') === 'fixed';
+    var s = f ? {top: 0, left: 0} : {top: $w.scrollTop(), left: $w.scrollLeft()};
 
     switch (arrow) {
         case 'top':     a.top = h.height / 2 - arr * 1.5; break;
