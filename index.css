@@ -6,20 +6,6 @@ body, html {
     color: #333;
 }
 
-.heading {
-    height: 100vh;
-    padding: 10px;
-    text-align: center;
-}
-.heading > h1 {
-    margin: -1em 0 0;
-    padding-top: 50vh;
-    font: 200 80px/1.5 Avenir, Arial;
-}
-.heading > a {
-    color: #666;
-    text-decoration: none;
-}
 
 
 .container {
@@ -31,6 +17,18 @@ body, html {
 .container:nth-child(2n) {
     background: #F6F6F6;
 }
+.container--heading {
+    text-align: center;
+}
+.container--heading h1 {
+    margin: -1em 0 0;
+    font: 200 80px/1.5 Avenir, Arial;
+}
+.container--heading a {
+    color: #666;
+    text-decoration: none;
+}
+
 .container__i {
     margin: 0 auto;
     padding: 20px 0;
