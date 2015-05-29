@@ -11,49 +11,281 @@
 <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="fly.full.js"></script>
 
+<link href='//fonts.googleapis.com/css?family=Source+Code+Pro:200' rel='stylesheet' type='text/css'>
 <link href="index.css" rel="stylesheet" />
-<script src="index.js"></script>
 
 
-<div class="container">Число е, исключая очевидный случай, трансформирует абстрактный полином, как и предполагалось.
-    <span class="js-h1 handle">Скалярное</span> произведение обуславливает интеграл по ориентированной области,
-    что несомненно приведет нас к истине.
-    Функция многих переменных <span class="js-h2 handle">существенно</span> усиливает убывающий определитель системы линейных уравнений,
-    откуда следует <span class="js-h3 handle">доказываемое</span> равенство.
-    Нечетная функция однородно оправдывает равновероятный <span class="js-delegated handle">неопределенный</span> интеграл,
-    что <span class="js-h4 handle">несомненно</span> приведет нас к истине.
+<div class="heading">
+    <h1>fly</h1>
+    <a href="#about">about</a>
+    ∾
+    <a href="#options">options</a>
+    ∾
+    <a href="#position">position</a>
+    ∾
+    <a href="#content">content</a>
+    ∾
+    <a href="#complex">extend</a>
+    ∾
+    <a href="#delegation">delegation</a>
+    ∾
+    <a href="#jquery">jquery</a>
 </div>
 
-<div class="container">
-    <span class="js-delegated-tooltip">delegated tooltip 1</span>
-    <br/>
-    <span class="js-delegated-tooltip">delegated tooltip 2</span>
-    <br/>
-    <span class="js-delegated-tooltip">delegated tooltip 3</span>
+<div class="container" id="about">
+    <div class="container__i">
+            <p>
+                Fly is dropdown/tooltip/popover call it whatever you want lib.
+                It helps you to not care about positioning, showing/hiding,
+                event racing and other boring stuff,
+                but focus on what and when you want to show.
+            </p>
+            <p>
+                Fly has built-in <span class="handle _1">dropdown</span> and <span class="handle _2">tooltip</span>
+            </p>
+            <p>
+                The easiest way to use it is <a href="#jquery">jQuery plugin</a>:
+            </p>
+<pre>
+$('.js-dropdown')
+    .dropdown({content: 'Hello'});
+
+$('.js-tooltip')
+    .tooltip({content: 'Welcome'});
+</pre>
+    </div>
+<script>
+$('._1').dropdown({content: 'Hello'});
+$('._2').tooltip({content: 'Welcome'});
+</script>
+</div>
+
+<div class="container" id="options">
+    <div class="container__i">
+        <p>
+            You can use constructors to create
+            <span class="handle _3" data-content="One">more</span>
+            <span class="handle _3" data-content="Two">advanced</span>
+            <span class="handle _3" data-content="Three">instances</span>:
+        </p>
+<pre>
+$('.js-dorpdown').each(function() {
+    $.fly.dropdown.create(this, { content: $(this).data('content') });
+});
+</pre>
+        <p>
+            The whole list of options you can pass to <code>create</code> or <code>jQuery.fn.dropdown</code>:
+        </p>
+<pre>
+{
+    baseClass: 'fly-dropdown',          // main root class
+    hideClass: 'fly-dropdown_hidden',   // class to be added on .hide()
+    extraClass: '...',                  // any additional root classes
+    content: '',                        // defines how to get content
+    position: 'bottom center',          // dropdown-tail position
+    arrowSize: 10,                      // offset between dropdown and handle
+    redrawOnShow: true,                 // recalculate content on every show event
+    register$: 'titletip'               // will register titletip as jQuery plugin
+}
+</pre>
+    </div>
+<script>
+$('._3').each(function() {
+    $.fly.dropdown.create(this, {content: $(this).data('content')});
+});
+</script>
+</div>
+
+<div class="container" id="position">
+    <div class="container__i">
+        <p>
+            Try to play with tooltip position:
+            <select class="_5">
+                <option value=""></option>
+                <option value="top left">top left</option>
+                <option value="top center">top center</option>
+                <option value="top right">top right</option>
+                <option value="right top">right top</option>
+                <option value="right center">right center</option>
+                <option value="right bottom">right bottom</option>
+                <option value="left top">left top</option>
+                <option value="left center">left center</option>
+                <option value="left bottom">left bottom</option>
+                <option value="bottom left">bottom left</option>
+                <option value="bottom center">bottom center</option>
+                <option value="bottom right">bottom right</option>
+            </select>
+        </p>
+<pre>
+$('js-tooltip').tooltip({position: '<span class="_7"></span>', content: 'Hello'});
+</pre>
+        <p>
+            <div class="position-game">
+                <div class="position-game__small _6"></div>
+                <div class="position-game__large _8"></div>
+            </div>
+        </p>
+    </div>
+<script>
+!function() {
+    var small = $('._6');
+    var large = $('._8');
+
+    $('._5').change(function() {
+        small.tooltip('destroy');
+        large.tooltip('destroy');
+
+        var val = $(this).val();
+        if (!val) { return; }
+
+        $('._7').text(val);
+
+        small
+            .tooltip({
+                content: 'Hello',
+                position: val
+            });
+        large
+            .tooltip({
+                content: 'Hello',
+                position: val
+            });
+        small.tooltip('instance').show();
+        large.tooltip('instance').show();
+    });
+}();
+</script>
+</div>
+
+<div class="container" id="content">
+    <div class="container__i">
+        <p>Content in the simplest case is just a <span class="handle _8">string</span>:</p>
+<pre>
+$('.js-dropdown').dropdown({content: 'Hello'});
+</pre>
+        <p>Also you can use <span class="handle _9">function</span> to calculate some value:</p>
+<pre>
+$('.js-dropdown').dropdown({
+    content: function() {
+        return new Date();
+    }
+});
+</pre>
+        <p>
+            Fly could wait for <span class="handle _10">async</span> content resolution,
+            if you will define first argument for the <code>content</code> function:
+        </p>
+<pre>
+$('.js-dropdown').dropdown({
+    content: function(done) {
+        setTimeout(function() {
+            done('Thanks for you patience');
+        }, 500);
+    }
+});
+</pre>
+    </div>
+<script>
+$('._8').dropdown({content: 'Hello'});
+$('._9').dropdown({
+    content: function() {
+        return new Date();
+    }
+});
+$('._10').dropdown({
+    content: function(done) {
+        setTimeout(function() {
+            done('Thanks for you patience');
+        }, 500);
+    }
+});
+</script>
 </div>
 
 
-<div class="container">
-    <pre>position: 'dropdown tail'</pre>
-    <span class="js-trigger-big">big</span>
-    <div class="auto-handle js-auto-handle" data-position="bottom left"></div>
-    <div class="auto-handle js-auto-handle" data-position="bottom right"></div>
-    <div class="auto-handle js-auto-handle" data-position="bottom center"></div>
-    <div class="auto-handle js-auto-handle" data-position="top left"></div>
-    <div class="auto-handle js-auto-handle" data-position="top right"></div>
-    <div class="auto-handle js-auto-handle" data-position="top center"></div>
-    <div class="auto-handle js-auto-handle" data-position="left top"></div>
-    <div class="auto-handle js-auto-handle" data-position="left bottom"></div>
-    <div class="auto-handle js-auto-handle" data-position="left center"></div>
-    <div class="auto-handle js-auto-handle" data-position="right top"></div>
-    <div class="auto-handle js-auto-handle" data-position="right bottom"></div>
-    <div class="auto-handle js-auto-handle" data-position="right center"></div>
+<div class="container" id="complex">
+    <div class="container__i">
+        <p>
+            To <span class="handle _11">create</span> your own fly class, use <code>extend</code>,
+            where you can overwrite anything you want or add new:
+        </p>
+<pre>
+var myDropdown = $.fly.dropdown.extend({
+    defaults: {
+        content: function() {
+            return this.getTime();
+        }
+    },
+    getTime: function() {
+        return new Date();
+    }
+});
+myDropdown.create('.js-dropdown');
+</pre>
+    </div>
+<script>
+!function() {
+var myDropdown = $.fly.dropdown.extend({
+    defaults: {
+        content: function() {
+            return this.getTime();
+        }
+    },
+    getTime: function() {
+        return new Date();
+    }
+});
+myDropdown.create('._11');
+}();
+</script>
 </div>
 
-<div class="container container--generator">
-    <span class="js-fly-generator-1">Create</span>
+<div class="container" id="delegation">
+    <div class="container__i">
+        <p>
+            Fly class can be <span class="handle _12">delegated</span>,
+            it will create instance
+            only after user's first interaction with the <code>handle</code>
+        </p>
+<pre>
+$.fly.dropdown.delegate('.js-dropdown', {content: 'Hello'});
+</pre>
+    </div>
+<script>
+$.fly.dropdown.delegate('._12', {content: 'Hello'});
+</script>
 </div>
 
-<div class="container container--generator">
-    <span class="js-fly-generator-2">Create</span>
+<div class="container" id="jquery">
+    <div class="container__i">
+        <p>
+            While you defining class you can <span class="handle _13">register</span> it as a jQuery plugin:
+        </p>
+<pre>
+$.fly.dropdown.extend({
+    defaults: { content: 'Hello' },
+    register$: 'myDropdown'
+});
+$('.js-dropdown').myDropdown();
+</pre>
+        <p>
+            You can get fly instance by <code>handle</code>
+        </p>
+<pre>
+var inst = $('.js-dropdown').myDropdown('instance');
+</pre>
+        <p>
+            You can destroy instance by <code>handle</code>
+        </p>
+<pre>
+$('.js-dropdown').myDropdown('destroy');
+</pre>
+    </div>
+<script>
+$.fly.dropdown.extend({
+    defaults: { content: 'Hello' },
+    register$: 'myDropdown'
+});
+$('._13').myDropdown();
+</script>
 </div>
