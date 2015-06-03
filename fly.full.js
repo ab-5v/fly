@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.14
+ * @version v0.0.15
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -485,29 +485,70 @@ fly.tooltip = fly._base.extend({
     },
 
     /**
-     * Delay timeout reference
+     * Show delay timeout reference
      * @private
      */
-    _timeout: null,
+    _showTimeout: null,
+
+    /**
+     * Hide delay timeout reference
+     * @private
+     */
+    _hideTimeout: null,
 
     /**
      * Default mouseenter action for tooltip
      */
     onmouseenter: function() {
         var that = this;
-        this._timeout = setTimeout(function() {
+
+        if (this._hideTimeout) {
+            clearTimeout(this._hideTimeout);
+            this._hideTimeout = null;
+        }
+
+        this._showTimeout = setTimeout(function() {
             that.show();
-        }, this.options.delay);
+        }, this.options.showDelay);
     },
 
     /**
      * Default mouseleave action for tooltip
      */
     onmouseleave: function() {
-        if (this._timeout) {
-            clearTimeout(this._timeout);
+        var that = this;
+
+        if (this._showTimeout) {
+            clearTimeout(this._showTimeout);
+            this._showTimeout = null;
         }
-        this.hide();
+
+        this._hideTimeout = setTimeout(function() {
+            that.hide();
+        }, this.options.hideDelay);
+    },
+
+    _action: function(mode) {
+        fly._base._action.apply(this, arguments);
+
+        if (this.options.keepOnContent) {
+            this._keepOnContent(mode);
+        }
+
+    },
+
+    _keepOnContent: function(mode) {
+        var that = this;
+        var rrevent = this.events.rootready + '._keepOnContent';
+
+        if (mode) {
+            this.bind(rrevent, function() {
+                fly._base._action.call(that, mode, that.actions, that.root());
+            });
+        } else {
+            this.unbind(rrevent);
+            fly._base._action.call(this, mode, this.actions, this.root());
+        }
     },
 
     /**
@@ -521,7 +562,8 @@ fly.tooltip = fly._base.extend({
 
         position: 'bottom center',
         arrowSize: 10,
-        delay: 300
+        showDelay: 300,
+        hideDelay: 300
     },
 
     _rect: fly._mixin.rect,
