@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.15
+ * @version v0.0.16
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -623,7 +623,7 @@ fly.dropdown = fly._base.extend({
      */
     _autohide: function(mode) {
         var that = this;
-        var events = 'click' + that.ens + ' keydown' + that.ens;
+        var events = 'click' + that.ens + ' keydown' + that.ens + ' touchstart' + that.ens;
 
         if (!mode) { return; }
 
@@ -633,10 +633,12 @@ fly.dropdown = fly._base.extend({
 
         function onshow() {
             $(document).bind(events, function(evt) {
-                var el = evt.target, root = that.root()[0];
+                var el = evt.target, root = that.root()[0], handle = that.handle()[0];
                 if (
                     evt.type === 'keydown' && evt.which === 27 ||
-                    evt.type === 'click' && el !== root && !$.contains(root, el)
+                    (evt.type === 'click' || evt.type === 'touchstart' ) &&
+                        el !== root && !$.contains(root, el) &&
+                        el !== handle && !$.contains(handle, el)
                 ) {
                     that.hide();
                 }
