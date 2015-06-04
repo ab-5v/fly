@@ -37,9 +37,11 @@ fly.tooltip = fly._base.extend({
             this._hideTimeout = null;
         }
 
-        this._showTimeout = setTimeout(function() {
-            that.show();
-        }, this.options.showDelay);
+        if (this.hidden()) {
+            this._showTimeout = setTimeout(function() {
+                that.show();
+            }, this.options.showDelay);
+        }
     },
 
     /**

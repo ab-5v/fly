@@ -1,6 +1,6 @@
 /*!
  * @name fly
- * @version v0.0.16
+ * @version v0.0.17
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
@@ -507,9 +507,11 @@ fly.tooltip = fly._base.extend({
             this._hideTimeout = null;
         }
 
-        this._showTimeout = setTimeout(function() {
-            that.show();
-        }, this.options.showDelay);
+        if (this.hidden()) {
+            this._showTimeout = setTimeout(function() {
+                that.show();
+            }, this.options.showDelay);
+        }
     },
 
     /**
