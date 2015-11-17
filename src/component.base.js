@@ -49,7 +49,13 @@ fly._base = {
      */
     defaults: {
         content: '',
-        redrawOnShow: true
+        position: 'bottom center',
+        baseClass: 'fly-popover',
+        hideClass: 'fly-popover--hidden',
+        extraClass: '',
+        redrawOnShow: true,
+        arrowOffset: 15,
+        arrowSize: 10
     },
 
     /**
@@ -251,7 +257,7 @@ fly._base = {
         var mod = this.options.position.split(' ');
         var base = this.options.baseClass;
 
-        return [base + '_' + mod[0], base + '_arrow-' + mod[1]].join(' ');
+        return [base + '_body_' + mod[0], base + '_arrow_' + mod[1]].join(' ');
     },
 
     /**

@@ -88,12 +88,6 @@ fly.tooltip = fly._base.extend({
      * @type Object
      */
     defaults: {
-        baseClass: 'fly-tooltip',
-        hideClass: 'fly-tooltip_hidden',
-        extraClass: '',
-
-        position: 'bottom center',
-        arrowSize: 10,
         showDelay: 300,
         hideDelay: 300
     },

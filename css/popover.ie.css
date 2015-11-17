@@ -1,0 +1,109 @@
+.fly-popover {
+    border: 1px solid #CCC;
+    background: #FFF;
+    box-shadow: none;
+}
+
+.fly-popover:before,
+.fly-popover:after {
+    content: '';
+    position: absolute;
+
+
+    width: 0;
+    height: 0;
+
+    background: none;
+    border-style: solid;
+    border-color: transparent;
+}
+
+.fly-popover_body_bottom:before {
+    left: 50%;
+    bottom: 100%;
+    margin-left: -10px;
+    border-width: 10px 10px;
+    border-bottom-color: inherit;
+}
+.fly-popover_body_bottom:after {
+    left: 50%;
+    bottom: 100%;
+    margin-left: -8px;
+    border-width: 8px 8px;
+    border-bottom-color: #FFF;
+}
+
+.fly-popover_body_top:before {
+    top: 100%;
+    left: 50%;
+    margin-left: -10px;
+    border-width: 10px 10px;
+    border-top-color: inherit;
+}
+.fly-popover_body_top:after {
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px 8px;
+    border-top-color: #FFF;
+}
+
+.fly-popover_body_left:before {
+    top: 50%;
+    left: 100%;
+    margin-top: -10px;
+    border-width: 10px 10px;
+    border-left-color: inherit;
+}
+.fly-popover_body_left:after {
+    top: 50%;
+    left: 100%;
+    margin-top: -8px;
+    border-width: 8px 8px;
+    border-left-color: #FFF;
+}
+
+.fly-popover_body_right:before {
+    top: 50%;
+    right: 100%;
+    margin-top: -10px;
+    border-width: 10px 10px;
+    border-right-color: inherit;
+}
+.fly-popover_body_right:after {
+    top: 50%;
+    right: 100%;
+    margin-top: -8px;
+    border-width: 8px 8px;
+    border-right-color: #FFF;
+}
+
+.fly-popover_arrow_top:after,
+.fly-popover_arrow_top:before {
+    top: 14px;
+}
+.fly-popover_arrow_left:after,
+.fly-popover_arrow_left:before {
+    left: 14px;
+}
+.fly-popover_arrow_right:before {
+    left: auto;
+    right: 4px;
+}
+.fly-popover_arrow_right:after {
+    left: auto;
+    right: 6px;
+}
+.fly-popover_arrow_bottom:before {
+    top: auto;
+    bottom: 4px;
+}
+.fly-popover_arrow_bottom:after {
+    top: auto;
+    bottom: 6px;
+}
+
+.fly-popover--hidden:before,
+.fly-popover--hidden:after {
+    content: ' ';
+}
