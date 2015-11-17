@@ -28,8 +28,8 @@ module.exports = function(grunt) {
         },
         watch: {
             src: {
-                files: ['Gruntfile.js', 'src/*.js'],
-                tasks: ['concat', 'jshint']
+                files: ['Gruntfile.js', 'src/*.js', 'src/*.css'],
+                tasks: ['concat', 'jshint', 'postcss:dist']
             }
         },
         jshint: {
@@ -37,13 +37,26 @@ module.exports = function(grunt) {
                 jshintrc: true
             },
             all: ['Gruntfile.js', 'src/*.js', '*.js']
+        },
+        postcss: {
+            options: {
+                processors: [
+                    require('autoprefixer')({
+                        browsers: ['last 2 versions']
+                    })
+                ]
+            },
+            dist: {
+                src: 'src/popover.css',
+                dest: 'css/popover.css'
+            }
         }
     });
 
-
-    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-postcss');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-    grunt.registerTask('default', ['concat', 'jshint']);
+    grunt.registerTask('default', ['concat', 'jshint', 'postcss:dist']);
 };

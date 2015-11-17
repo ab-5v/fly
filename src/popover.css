@@ -1,0 +1,73 @@
+.fly-popover {
+    position: absolute;
+    background: #FFF;
+    box-shadow: 0 10px 20px -4px rgba(0, 0, 0, .4), 0 0 0 1px rgba(0, 0, 0, .1);
+    transition: opacity .2s, visibility .2s, transform .2s;
+    transform: translateY(0);
+    z-index: 999;
+}
+.fly-popover::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: inherit;
+    background: inherit;
+    box-shadow: inherit;
+    z-index: -1;
+}
+.fly-popover_body_bottom::before {
+    top: -5px;
+    left: 50%;
+    margin-left: -10px;
+    transform: scaleX(0.9) rotate(45deg);
+}
+.fly-popover_body_top::before {
+    bottom: -5px;
+    left: 50%;
+    margin-left: -10px;
+    transform: scaleX(0.9) rotate(45deg);
+}
+.fly-popover_body_left::before {
+    top: 50%;
+    right: -5px;
+    margin-top: -10px;
+    transform: scaleY(0.9) rotate(45deg);
+}
+.fly-popover_body_right::before {
+    top: 50%;
+    left: -5px;
+    margin-top: -10px;
+    transform: scaleY(0.9) rotate(45deg);
+}
+.fly-popover_arrow_top::before {
+    top: 15px;
+}
+.fly-popover_arrow_left::before {
+    left: 15px;
+}
+.fly-popover_arrow_right::before {
+    left: auto;
+    right: 5px;
+}
+.fly-popover_arrow_bottom::before {
+    top: auto;
+    bottom: 5px;
+}
+
+.fly-popover::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    border-radius: inherit;
+    z-index: -1;
+}
+.fly-popover--hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+}

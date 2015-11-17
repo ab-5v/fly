@@ -78,14 +78,7 @@ fly.dropdown = fly._base.extend({
      * Deafult settings for dropdown
      * @type Object
      */
-    defaults: {
-        baseClass: 'fly-dropdown',
-        hideClass: 'fly-dropdown_hidden',
-        extraClass: '',
-
-        position: 'bottom center',
-        arrowSize: 10
-    },
+    defaults: {},
 
     _rect: fly._mixin.rect,
     _position: fly._mixin.position

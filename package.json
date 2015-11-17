@@ -1,12 +1,14 @@
 {
   "name": "fly",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "author": "Artur Burtsev <artjock@gmail.com>",
   "private": true,
   "devDependencies": {
+    "autoprefixer": "^6.3.6",
     "grunt": "~0.4.2",
     "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-jshint": "~0.8.0",
     "grunt-contrib-watch": "~0.5.3",
-    "grunt-contrib-jshint": "~0.8.0"
+    "grunt-postcss": "^0.7.1"
   }
 }
