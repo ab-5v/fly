@@ -2,17 +2,21 @@
 <meta charset="utf-8" />
 <title>Fly</title>
 
-<link href="css/tooltip.css" rel="stylesheet" />
-<link href="css/dropdown.css" rel="stylesheet" />
+<link href="css/popover.css" rel="stylesheet" />
 <!--[if lte IE 8]>
-<link href="css/dropdown.ie.css" rel="stylesheet" />
+<link href="css/popover.ie.css" rel="stylesheet" />
 <![endif]-->
 
 <script src="//code.jquery.com/jquery-1.10.1.min.js"></script>
 <script src="fly.full.js"></script>
 
+<!--[if gt IE 8]>
 <link href='//fonts.googleapis.com/css?family=Source+Code+Pro:200' rel='stylesheet' type='text/css'>
+<![endif]-->
 <link href="index.css" rel="stylesheet" />
+<!--[if lte IE 8]>
+<link href="index.ie.css" rel="stylesheet" />
+<![endif]-->
 
 
 <div class="container container--heading">
@@ -119,7 +123,7 @@ $('._3').each(function() {
             </select>
         </p>
 <pre>
-$('js-tooltip').tooltip({position: '<span class="_7"></span>', content: 'Hello'});
+$('js-tooltip').tooltip({position: '<span class="_7"></span>', content: 'hello'});
 </pre>
         <p>
             <div class="position-game">
@@ -144,11 +148,13 @@ $('js-tooltip').tooltip({position: '<span class="_7"></span>', content: 'Hello'}
 
         small
             .tooltip({
+                extraClass: 'position-game-tooltip',
                 content: 'Hello',
                 position: val
             });
         large
             .tooltip({
+                extraClass: 'position-game-tooltip',
                 content: 'Hello',
                 position: val
             });
@@ -292,6 +298,7 @@ $('._13').myDropdown();
 </script>
 </div>
 
+<!--[if gt IE 8]>
 <div class="container container--heading">
     <div class="container__i">
         <h1>fly</h1>
@@ -303,5 +310,5 @@ $('._13').myDropdown();
 
 <a href="https://github.com/artjock/fly"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 
-<!-- Place this tag right after the last button or just before your close body tag. -->
 <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
+<![endif]-->

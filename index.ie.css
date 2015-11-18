@@ -1,0 +1,14 @@
+.position-game {
+    overflow: hidden;
+    padding: 100px;
+}
+.position-game__small {
+    float: left;
+    margin-top: 45px;
+    background: #AAA;
+}
+
+.position-game__large {
+    float: right;
+    background: #AAA;
+}

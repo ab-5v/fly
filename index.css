@@ -73,10 +73,11 @@ code {
     background: rgba(0, 0, 0, .2);
 }
 
-.fly-dropdown {
-    padding: 10px;
+.position-game-tooltip {
+    min-width: 50px;
+    text-align: center;
 }
 
-.fly-tooltip {
+.fly-popover {
     padding: 10px;
 }
