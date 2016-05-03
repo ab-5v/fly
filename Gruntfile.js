@@ -10,8 +10,15 @@ module.exports = function(grunt) {
                         ' * @author <%= bower.authors[0]  %>\n' +
                         ' * @see <%= bower.homepage %>\n' +
                         ' */\n' +
-                        ';(function() {\n',
-                footer: '})();'
+                        ';(function(root, factory) {\n' +
+                        '   if (typeof exports === \'object\') {\n' +
+                        '       module.exports = factory(root.jQuery);\n' +
+                        '   } else {\n' +
+                        '       root.jQuery.fly = factory(root.jQuery);\n' +
+                        '   }\n' +
+                        '})(this, function($) {\n',
+                footer: '   return fly;\n' +
+                        '});'
             },
             full: {
                 src: [
