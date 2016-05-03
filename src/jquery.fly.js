@@ -5,8 +5,6 @@
  * @requires _base.js
  */
 
-$.fly = fly;
-
 /**
  * Registers fly component, as jquery plugin
  * @static

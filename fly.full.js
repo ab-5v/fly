@@ -1,10 +1,16 @@
 /*!
  * @name fly
- * @version v0.0.18
+ * @version v0.0.19
  * @author Artur Burtsev <artjock@gmail.com>
  * @see https://github.com/artjock/fly
  */
-;(function() {
+;(function(root, factory) {
+   if (typeof module === 'object' && typeof module.exports === 'object') {
+       module.exports = factory(require('jquery'));
+   } else {
+       root.jQuery.fly = factory(root.jQuery);
+   }
+})(this, function($) {
 
 /**
  * Wrapper
@@ -667,8 +673,6 @@ fly.dropdown = fly._base.extend({
  * @requires _base.js
  */
 
-$.fly = fly;
-
 /**
  * Registers fly component, as jquery plugin
  * @static
@@ -714,4 +718,5 @@ fly.register$ = function(type, component) {
 };
 
 $.each(fly, fly.register$);
-})();
+   return fly;
+});
