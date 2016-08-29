@@ -28,6 +28,7 @@ module.exports = function(grunt) {
                     'src/mixin.position.js',
                     'src/component.tooltip.js',
                     'src/component.dropdown.js',
+                    'src/fly.functions.js',
                     'src/jquery.fly.js'
                 ],
                 dest: 'fly.full.js'

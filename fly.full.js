@@ -28,7 +28,14 @@ var fly = {
      * @private
      * @type Object
      */
-    _mixin: {}
+    _mixin: {},
+
+    /**
+     * Instances
+     * @private
+     * @type Array
+     */
+    _instances: []
 };
 
 
@@ -120,6 +127,8 @@ fly._base = {
         });
 
         inst.options = $.extend({}, inst.defaults, options);
+
+        fly._instances.push(inst);
 
         return inst._init();
     },
@@ -226,6 +235,13 @@ fly._base = {
             this._$root = null;
         }
         this._action(false);
+
+        for (var i = 0, ln = fly._instances.length; i < ln; i++) {
+            if (fly._instances[i] === this) {
+                fly._instances.splice(i, 1);
+                break;
+            }
+        }
     },
 
     /**
@@ -665,6 +681,15 @@ fly.dropdown = fly._base.extend({
     _position: fly._mixin.position
 });
 
+
+/**
+ * Hide all fly instances
+ */
+fly.hideAll = function () {
+    for (var i = 0, ln = fly._instances.length; i < ln; i++) {
+        fly._instances[i].hide();
+    }
+};
 
 
 /**

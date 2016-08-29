@@ -88,6 +88,8 @@ fly._base = {
 
         inst.options = $.extend({}, inst.defaults, options);
 
+        fly._instances.push(inst);
+
         return inst._init();
     },
 
@@ -193,6 +195,13 @@ fly._base = {
             this._$root = null;
         }
         this._action(false);
+
+        for (var i = 0, ln = fly._instances.length; i < ln; i++) {
+            if (fly._instances[i] === this) {
+                fly._instances.splice(i, 1);
+                break;
+            }
+        }
     },
 
     /**
