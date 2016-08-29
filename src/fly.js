@@ -15,5 +15,12 @@ var fly = {
      * @private
      * @type Object
      */
-    _mixin: {}
+    _mixin: {},
+
+    /**
+     * Instances
+     * @private
+     * @type Array
+     */
+    _instances: []
 };

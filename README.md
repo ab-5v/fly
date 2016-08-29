@@ -194,3 +194,7 @@ fly.register$('titletip', titletip);
 $('.js-titletip').titletip({position: $(this).data('position');
 ```
 
+## Global functions
+
+### fly.hideAll
+Hides all current instances of fly.
